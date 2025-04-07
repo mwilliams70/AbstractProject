@@ -107,6 +107,7 @@ CREATE TABLE Account (
     studentID INT,
     publicUserID INT,
     FOREIGN KEY (facultyID) REFERENCES Faculty(facultyID),
-    FOREIGN KEY (publicUserID) REFERENCES PublicUser(publicUserID)
+    FOREIGN KEY (publicUserID) REFERENCES PublicUser(publicUserID),
+    FOREIGN KEY (studentID) REFERENCES Student(studentID)
 );
 
