@@ -20,6 +20,15 @@ CREATE TABLE Faculty (
     department VARCHAR(50),
     officeNum VARCHAR(50)
 );
+CREATE TABLE Interest (
+    interestID INT AUTO_INCREMENT PRIMARY KEY,
+    content TEXT
+);
+CREATE TABLE College (
+    collegeID INT PRIMARY KEY,
+    cName VARCHAR(75),
+    buildingNum INT
+);
 
 CREATE TABLE FacultyInterest (
     facultyID INT,
@@ -29,10 +38,7 @@ CREATE TABLE FacultyInterest (
     FOREIGN KEY (interestID) REFERENCES Interest(interestID)
 );
 
-CREATE TABLE Interest (
-    interestID INT AUTO_INCREMENT PRIMARY KEY,
-    content TEXT
-);
+
 
 CREATE TABLE CollegeFaculty (
     collegeID INT,
@@ -42,8 +48,3 @@ CREATE TABLE CollegeFaculty (
     FOREIGN KEY (facultyID) REFERENCES Faculty(facultyID)
 );
 
-CREATE TABLE College (
-    collegeID INT PRIMARY KEY,
-    cName VARCHAR(75),
-    buildingNum INT
-);
