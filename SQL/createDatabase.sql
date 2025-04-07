@@ -22,8 +22,11 @@ CREATE TABLE Faculty (
 );
 
 CREATE TABLE FacultyInterest (
-    facultyID INT AUTO_INCREMENT PRIMARY KEY,
-    interestID INT AUTO_INCREMENT
+    facultyID INT,
+    interestID INT,
+    PRIMARY KEY (facultyID, interestID),
+    FOREIGN KEY (facultyID) REFERENCES Faculty(facultyID),
+    FOREIGN KEY (interestID) REFERENCES Interest(interestID)
 );
 
 CREATE TABLE Interest (
@@ -32,8 +35,11 @@ CREATE TABLE Interest (
 );
 
 CREATE TABLE CollegeFaculty (
-    collegeID INT PRIMARY KEY,
-    facultyID INT
+    collegeID INT,
+    facultyID INT,
+    PRIMARY KEY (collegeID, facultyID),
+    FOREIGN KEY (collegeID) REFERENCES College(collegeID),
+    FOREIGN KEY (facultyID) REFERENCES Faculty(facultyID)
 );
 
 CREATE TABLE College (
