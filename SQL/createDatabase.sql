@@ -26,8 +26,14 @@ CREATE TABLE Interest (
 );
 CREATE TABLE College (
     collegeID INT PRIMARY KEY,
-    cName VARCHAR(75),
-    buildingNum INT
+    cName VARCHAR(75)
+);
+
+CREATE TABLE building (
+    buildingID INT AUTO_INCREMENT PRIMARY KEY,
+    buildingName VARCHAR(100),
+    collegeID INT,
+    FOREIGN KEY (collegeID) REFERENCES college(collegeID)
 );
 
 CREATE TABLE FacultyInterest (
