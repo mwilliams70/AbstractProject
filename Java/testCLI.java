@@ -34,10 +34,6 @@ public class testCLI {
         }
     }
 
-    public void printFacultyMenu() {
-        System.out.println("I am a faculty member");
-    }
-
     public static String getMostRecentID(String role) {
         // use "student", "faculty", or "publicUser" for role
         return "SELECT MAX(" + role + "ID) FROM " + role;
@@ -94,10 +90,22 @@ public class testCLI {
             e.printStackTrace();                   
         }               
     }
-    
 
-    public void login(String un, String pswd) {
-
+    public void createPublicUserAccount(String un, String pswd, String orgName, String contactInfo) {
+        String insertPublicUser = "INSERT INTO publicuser VALUES (NULL, ?, ?)";
+        String getID = getMostRecentID("publicUser");
+        try (PreparedStatement stmt = conn.prepareStatement(insertPublicUser)) {
+            stmt.setString(1, orgName);
+            stmt.setString(2, contactInfo);
+            stmt.executeUpdate();
+            PreparedStatement id = conn.prepareStatement(getID);
+            ResultSet puID = id.executeQuery();
+            if (puID.next()) {
+                insertAccount("publicUser", un, pswd, puID.getInt(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
@@ -105,6 +113,7 @@ public class testCLI {
         cli.connect("abstract_project", "root", "student");
 
         // cli.createStudentAccount("un", "pw", "Michael", "Williams", "msw7476@g.rit.edu");
-        cli.createFacultyAccount("jimhabermas", "password", "Jim", "Habermas", "jhabermas@g.rit.edu", "GCCIS", 345);
+        // cli.createFacultyAccount("jimhabermas", "password", "Jim", "Habermas", "jhabermas@g.rit.edu", "GCCIS", 345);
+        cli.createPublicUserAccount("publicUsername", "publicpassword", "UofR", "email@uofr.com");
     }
 }
