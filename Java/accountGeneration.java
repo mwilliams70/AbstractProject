@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class testCLI {
+public class accountGeneration {
     public static Connection conn;
     private final static String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static String PATH = "jdbc:mysql://localhost/";
@@ -52,22 +52,30 @@ public class testCLI {
         }
         
     }
+    public void insertCollegeBuilding(int collegeID, String buildingName, String collegeName) {
 
-    public void createFacultyAccount(String un, String pswd, String firstName, String lastName, String email, String department, int officeNum) {
-        String insertFaculty = "INSERT INTO faculty VALUES (NULL, ?, ?, ?, ?, ?)";
+    }
+
+    public void createFacultyAccount(String un, String pswd, String firstName, String lastName, String email, int officeNum, String[] departmentIDs, String buildingName) {
+        String insertFaculty = "INSERT INTO faculty VALUES (NULL, ?, ?, ?, ?)";
         String getID = getMostRecentID("faculty");
         try (PreparedStatement stmt = conn.prepareStatement(insertFaculty)) {
             stmt.setString(1, firstName);
             stmt.setString(2, lastName);
             stmt.setString(3, email);
-            stmt.setString(4, department);
-            stmt.setInt(5, officeNum);
+            stmt.setInt(4, officeNum);
             stmt.executeUpdate();
             PreparedStatement id = conn.prepareStatement(getID);
             ResultSet fID = id.executeQuery();
             if (fID.next()) {
                 insertAccount("faculty", un, pswd, fID.getInt(1));
             }
+            PreparedStatement deptIDstmt = conn.prepareStatement("INSERT INTO collegefaculty VALUES (?, ?)");
+            for (String dID : departmentIDs) {
+                deptIDstmt.setInt(1, fID.getInt(1));
+                deptIDstmt.setString(2, dID);
+                deptIDstmt.executeUpdate();
+            }    
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -85,7 +93,8 @@ public class testCLI {
             ResultSet sID = id.executeQuery();
             if (sID.next()) {
                 insertAccount("student", un, pswd, sID.getInt(1));
-            }                
+            }     
+                   
         } catch (SQLException e) {
             e.printStackTrace();                   
         }               
@@ -103,17 +112,20 @@ public class testCLI {
             if (puID.next()) {
                 insertAccount("publicUser", un, pswd, puID.getInt(1));
             }
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public static void main(String[] args) {
-        testCLI cli = new testCLI();
+        accountGeneration cli = new accountGeneration();
         cli.connect("abstract_project", "root", "student");
 
         // cli.createStudentAccount("un", "pw", "Michael", "Williams", "msw7476@g.rit.edu");
         // cli.createFacultyAccount("jimhabermas", "password", "Jim", "Habermas", "jhabermas@g.rit.edu", "GCCIS", 345);
-        cli.createPublicUserAccount("publicUsername", "publicpassword", "UofR", "email@uofr.com");
+        // cli.createPublicUserAccount("publicUsername", "publicpassword", "UofR", "email@uofr.com");
+        String[] arr= new String[] {"2", "3"};
+        cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
     }
 }

@@ -17,7 +17,6 @@ CREATE TABLE Faculty (
     firstName VARCHAR(20),
     lastName VARCHAR(20),
     email VARCHAR(50),
-    department VARCHAR(50),
     officeNum VARCHAR(50)
 );
 CREATE TABLE Interest (
@@ -26,7 +25,8 @@ CREATE TABLE Interest (
 );
 CREATE TABLE College (
     collegeID INT PRIMARY KEY,
-    cName VARCHAR(75)
+    cName VARCHAR(75),
+    building VARCHAR(100)
 );
 
 CREATE TABLE building (

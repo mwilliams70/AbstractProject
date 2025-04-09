@@ -2,6 +2,7 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "c:\\Classes\\mssql-jdbc-7.0.0.jre8.jar",
-        "c:\\Classes\\mysql-connector-java-8.0.21.jar"
+        "c:\\Classes\\mysql-connector-java-8.0.21.jar",
+        "c:\\Drivers\\mysql-connector-java-8.0.21.jar"
     ]
 }
