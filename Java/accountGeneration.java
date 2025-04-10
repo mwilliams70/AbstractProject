@@ -1,3 +1,5 @@
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -80,7 +82,7 @@ public class accountGeneration {
 
             // Inserts an account record
             if (fID.next()) {
-                insertAccount("faculty", un, pswd, fID.getInt(1));
+                insertAccount("faculty", un, encrypt(pswd), fID.getInt(1));
             }
 
             // inserts records for what colleges the faculty is associated with
@@ -108,7 +110,7 @@ public class accountGeneration {
             PreparedStatement id = conn.prepareStatement(getID);
             ResultSet sID = id.executeQuery();
             if (sID.next()) {
-                insertAccount("student", un, pswd, sID.getInt(1));
+                insertAccount("student", un, encrypt(pswd), sID.getInt(1));
             }     
             PreparedStatement collegeStmt = conn.prepareStatement("INSERT INTO studentmajor VALUES (?, ?, ?)");
             collegeStmt.setInt(1, collegeID);
@@ -131,7 +133,7 @@ public class accountGeneration {
             PreparedStatement id = conn.prepareStatement(getID);
             ResultSet puID = id.executeQuery();
             if (puID.next()) {
-                insertAccount("publicUser", un, pswd, puID.getInt(1));
+                insertAccount("publicUser", un, encrypt(pswd), puID.getInt(1));
             }
             
         } catch (SQLException e) {
@@ -139,12 +141,27 @@ public class accountGeneration {
         }
     }
 
+    public static String encrypt(String secret){//Endcypt password
+        String sha1 = "";
+        String value = new String(secret);
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+   	    digest.reset();
+   	    digest.update(value.getBytes("utf8"));
+   	    sha1 = String.format("%040x", new BigInteger(1, digest.digest()));
+        } catch (Exception e){
+            e.printStackTrace();
+   	    }
+   	    return sha1;
+    }
+
+
     public static void main(String[] args) {
         accountGeneration cli = new accountGeneration();
         cli.connect("abstract_project", "root", "student");
 
         String[] arr= new String[] {"2", "3"};
-        // cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
-        // cli.createStudentAccount("msw7476", "password", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
+        cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
+        cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
     }
 }
