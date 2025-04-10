@@ -83,11 +83,13 @@ public class accountGeneration {
                 insertAccount("faculty", un, pswd, fID.getInt(1));
             }
 
+            // inserts records for what colleges the faculty is associated with
+            // need to fix so that only 3 are read
             PreparedStatement deptIDstmt = conn.prepareStatement("INSERT INTO collegefaculty VALUES (?, ?)");
             for (String collegeIDStr : collegeIDs) {
                 int collegeID = Integer.parseInt(collegeIDStr);
-                deptIDstmt.setInt(1, collegeID);     // Correct: collegeID
-                deptIDstmt.setInt(2, fID.getInt(1)); // Correct: facultyID
+                deptIDstmt.setInt(1, collegeID);     
+                deptIDstmt.setInt(2, fID.getInt(1)); 
                 deptIDstmt.executeUpdate();
             }   
         } catch (SQLException e) {
