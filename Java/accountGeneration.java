@@ -97,7 +97,7 @@ public class accountGeneration {
         }
     }
 
-    public void createStudentAccount(String un, String pswd, String firstName, String lastName, String email) {
+    public void createStudentAccount(String un, String pswd, String firstName, String lastName, String email, int collegeID, String major) {
         String insertStudent = "INSERT INTO student VALUES (NULL, ?, ?, ?)";
         String getID = getMostRecentID("student");
         try (PreparedStatement stmt = conn.prepareStatement(insertStudent)) {
@@ -110,6 +110,11 @@ public class accountGeneration {
             if (sID.next()) {
                 insertAccount("student", un, pswd, sID.getInt(1));
             }     
+            PreparedStatement collegeStmt = conn.prepareStatement("INSERT INTO studentmajor VALUES (?, ?, ?)");
+            collegeStmt.setInt(1, collegeID);
+            collegeStmt.setInt(2, sID.getInt(1));
+            collegeStmt.setString(3, major);
+            collegeStmt.executeUpdate();
                    
         } catch (SQLException e) {
             e.printStackTrace();                   
@@ -139,6 +144,7 @@ public class accountGeneration {
         cli.connect("abstract_project", "root", "student");
 
         String[] arr= new String[] {"2", "3"};
-        cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
+        // cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
+        // cli.createStudentAccount("msw7476", "password", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
     }
 }
