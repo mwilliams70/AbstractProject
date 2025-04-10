@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class userCreation {
@@ -22,6 +23,7 @@ public class userCreation {
         System.out.print("Enter number(s): ");
         String cID = sc.nextLine();
         String[] arr = cID.split(" ");
+        System.out.println("This is the array: " + Arrays.toString(arr));
 
         System.out.print("What building is your office in? ");
         String building = sc.nextLine();
