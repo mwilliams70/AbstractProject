@@ -155,6 +155,10 @@ public class accountGeneration {
    	    return sha1;
     }
 
+    public void insertFacultyAbstract(String title, String[] authors, String content, int facultyID) {
+
+    }
+
 
     public static void main(String[] args) {
         accountGeneration cli = new accountGeneration();
