@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 
 public class accountGeneration {
     public static Connection conn;
@@ -155,8 +158,43 @@ public class accountGeneration {
    	    return sha1;
     }
 
-    public void insertFacultyAbstract(String title, String[] authors, String content, int facultyID) {
+    public void insertFacultyAbstract(String title, String author, String content, int facultyID) {
+        try {
+            String checkAbstract = "SELECT abstractID FROM abstract WHERE title = ?";
+            PreparedStatement check = conn.prepareStatement(checkAbstract);
+            check.setString(1, title);
+            ResultSet rs = check.executeQuery();
+            int abstractID;
+            if (rs.next()) {
+                abstractID = rs.getInt("abstractID");
+            } else {
+                String sql = "INSERT INTO abstract (title, author, content) VALUES (?, ?, ?)";
+                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                stmt.setString(1, title);
+                stmt.setString(2, author);
+                stmt.setString(3, content);
+                stmt.executeUpdate();
 
+                ResultSet generatedAbsID = stmt.getGeneratedKeys();
+                if (generatedAbsID.next()) {
+                    abstractID = generatedAbsID.getInt(1);
+                } else {
+                    throw new SQLException("Abstract Not Created");
+                }
+            }
+
+            String fa = "INSERT INTO facultyabstract VALUES (?, ?)";
+            PreparedStatement faLink = conn.prepareStatement(fa);
+            faLink.setInt(1, facultyID);
+            faLink.setInt(2, abstractID);
+            faLink.executeUpdate();
+            
+
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -165,7 +203,11 @@ public class accountGeneration {
         cli.connect("abstract_project", "root", "student");
 
         String[] arr= new String[] {"2", "3"};
+        String p = null;
         cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
-        cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
+        cli.createFacultyAccount("professor2", "garretpassword", "Garret", "Arrorcaci", "gpvaks@g.rit.edu", 789, arr, "Golisano Hall");
+        // cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
+        cli.insertFacultyAbstract("My Abstract", "Jim Habermas", "This is the content of my abstract", 1);
+        cli.insertFacultyAbstract("My Abstract", "Garret", "This is the content of my abstract", 2);
     }
 }
