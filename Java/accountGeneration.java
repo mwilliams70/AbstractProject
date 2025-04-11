@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 
 public class accountGeneration {
     public static Connection conn;
