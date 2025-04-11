@@ -50,6 +50,7 @@ CREATE TABLE CollegeFaculty (
 CREATE TABLE Abstract (
     abstractID INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(50),
+    author VARCHAR(50),
     content TEXT
 );
 
