@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class userCreation {
+public class testing {
     public static void main(String[] args) {
         accountGeneration ag = new accountGeneration();
         Scanner sc = new Scanner(System.in);
