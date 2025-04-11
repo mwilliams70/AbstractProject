@@ -168,11 +168,10 @@ public class accountGeneration {
             if (rs.next()) {
                 abstractID = rs.getInt("abstractID");
             } else {
-                String sql = "INSERT INTO abstract (title, author, content) VALUES (?, ?, ?)";
+                String sql = "INSERT INTO abstract (title, content) VALUES (?, ?)";
                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 stmt.setString(1, title);
-                stmt.setString(2, author);
-                stmt.setString(3, content);
+                stmt.setString(2, content);
                 stmt.executeUpdate();
 
                 ResultSet generatedAbsID = stmt.getGeneratedKeys();
@@ -182,16 +181,11 @@ public class accountGeneration {
                     throw new SQLException("Abstract Not Created");
                 }
             }
-
             String fa = "INSERT INTO facultyabstract VALUES (?, ?)";
             PreparedStatement faLink = conn.prepareStatement(fa);
             faLink.setInt(1, facultyID);
             faLink.setInt(2, abstractID);
-            faLink.executeUpdate();
-            
-
-            
-            
+            faLink.executeUpdate(); 
         } catch (SQLException e) {
             e.printStackTrace();
         }
