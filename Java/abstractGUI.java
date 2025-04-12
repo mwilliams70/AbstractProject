@@ -41,6 +41,16 @@ public class abstractGUI {
                 main.add(userInt3);
 
                 JOptionPane.showMessageDialog(null, main, "Modify", JOptionPane.QUESTION_MESSAGE);
+                
+                String inputtedInt1 = userInt1.getText();
+                String inputtedInt2 = userInt2.getText();
+                String inputtedInt3 = userInt3.getText();
+                String[] intArr = new String[] {inputtedInt1, inputtedInt2, inputtedInt3};
+
+                abstractDB.insertInterests(intArr, "faculty", 1);
+
+                JOptionPane.showMessageDialog(null, "Interests Updated!", "Updated", JOptionPane.INFORMATION_MESSAGE);
+                
             }
         });
 

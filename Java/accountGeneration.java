@@ -235,7 +235,8 @@ public class accountGeneration {
                 PreparedStatement roleLink = conn.prepareStatement(roleInsert);
                 roleLink.setInt(1, id);
                 roleLink.setInt(2, interestID);
-                roleLink.executeUpdate();
+                int rowsaffected = roleLink.executeUpdate();
+                
             }
         } catch (SQLException e) {
             e.printStackTrace();
