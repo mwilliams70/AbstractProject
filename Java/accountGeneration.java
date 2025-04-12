@@ -198,6 +198,9 @@ public class accountGeneration {
 
     public void insertInterests(String[] interests, String role, int id) {
         try {
+
+            // NEED TO DELETE ALL RECORDS IF INSERTING interests AGAIN TO MAKE 
+            // SURE THE USER ONLY HAS 3 INTERESTS
             for (String interest : interests) {
                 interest = interest.toLowerCase();
                 String sql = "SELECT interestID FROM interest WHERE content LIKE ?";
@@ -238,14 +241,14 @@ public class accountGeneration {
         cli.connect("abstract_project", "root", "student");
 
         String[] arr= new String[] {"2", "3"};
-        String[] interests = new String[] {"Python", "Java", "sql"};
+        String[] interests = new String[] {"Python", "Java", "systems administration"};
         String p = null;
         // cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
         // cli.createFacultyAccount("professor2", "garretpassword", "Garret", "Arrorcaci", "gpvaks@g.rit.edu", 789, arr, "Golisano Hall");
-        cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
+        // cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
         // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 1);
         // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 2);
-        // cli.insertInterests(interests, "faculty", 2);
-        cli.insertInterests(interests, "student", 1);
+        cli.insertInterests(interests, "faculty", 1);
+        // cli.insertInterests(interests, "student", 1);
     }
 }
