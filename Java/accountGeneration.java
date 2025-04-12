@@ -53,9 +53,9 @@ public class accountGeneration {
             ia.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        
+        }   
     }
+
     public void insertCollegeBuilding(int collegeID, String buildingName) {
         String sql = "INSERT INTO building (buildingName, collegeID) VALUES (?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -238,7 +238,6 @@ public class accountGeneration {
             e.printStackTrace();
         } 
     }
-
 
     public static void main(String[] args) {
         accountGeneration cli = new accountGeneration();
