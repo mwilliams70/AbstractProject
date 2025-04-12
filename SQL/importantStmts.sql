@@ -11,3 +11,8 @@ SELECT CONCAT(f.firstName, ' ', f.lastName) AS Faculty, GROUP_CONCAT(i.content) 
     JOIN facultyinterest USING (facultyID)
     JOIN interest i USING (interestID)
     GROUP BY f.facultyID;
+
+select content FROM interest 
+    JOIN facultyinterest USING (interestID)
+    JOIN faculty USING(facultyID) 
+    where facultyID=2

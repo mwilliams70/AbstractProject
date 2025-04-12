@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class accountGeneration {
@@ -239,6 +242,27 @@ public class accountGeneration {
         } 
     }
 
+    public String[] getInterest(int id, String role) {
+        List<String> results = new ArrayList<>();
+        try {
+            String sql = "SELECT content FROM interest JOIN " + 
+                role + "interest USING (interestID) JOIN " + 
+                role + " USING (" + role + "ID) WHERE facultyID=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                results.add(rs.getString(1));
+            }
+            return results.toArray(new String[0]);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new String[results.size()];
+        }
+    }
+
     public static void main(String[] args) {
         accountGeneration cli = new accountGeneration();
         cli.connect("abstract_project", "root", "student");
@@ -247,13 +271,18 @@ public class accountGeneration {
         String[] interests = new String[] {"Python", "Java", "SQL"};
         String[] interests2 = new String[] {"Java", "Systems Administration", "Kerberos", "C++"};
         String p = null;
-        cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
-        cli.createFacultyAccount("professor2", "garretpassword", "Garret", "Arrorcaci", "gpvaks@g.rit.edu", 789, arr, "Golisano Hall");
-        cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
-        cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 1);
-        cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 2);
-        cli.insertInterests(interests, "faculty", 1);
-        cli.insertInterests(interests2, "faculty", 2);
-        cli.insertInterests(interests, "student", 1);
+        // cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
+        // cli.createFacultyAccount("professor2", "garretpassword", "Garret", "Arrorcaci", "gpvaks@g.rit.edu", 789, arr, "Golisano Hall");
+        // cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
+        // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 1);
+        // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 2);
+        // cli.insertInterests(interests, "faculty", 1);
+        // cli.insertInterests(interests2, "faculty", 2);
+        // cli.insertInterests(interests, "student", 1);
+        String[] results = cli.getInterest(1, "faculty");
+        for (String result : results) {
+            System.out.println(result);
+        }
+        // System.out.println(Arrays.toString(results));
     }
 }
