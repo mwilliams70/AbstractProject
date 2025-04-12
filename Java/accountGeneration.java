@@ -199,10 +199,14 @@ public class accountGeneration {
     public void insertInterests(String[] interests, String role, int id) {
         try {
 
-            // NEED TO DELETE ALL RECORDS IF INSERTING interests AGAIN TO MAKE 
-            // SURE THE USER ONLY HAS 3 INTERESTS
-            for (String interest : interests) {
-                interest = interest.toLowerCase();
+            // when inserting interests, the ones that exist already are deleted at first to ensure
+            // a user only has 3 interests
+            String delete = "DELETE FROM " + role + "interest WHERE " + role + "ID = ?";
+            PreparedStatement deletestatement = conn.prepareStatement(delete);
+            deletestatement.setInt(1, id);
+            deletestatement.executeUpdate();
+            for (int i = 0; i < 3; i++) {
+                String interest = interests[i].toLowerCase();
                 String sql = "SELECT interestID FROM interest WHERE content LIKE ?";
                 PreparedStatement check = conn.prepareStatement(sql);
                 check.setString(1, interest);
@@ -241,14 +245,16 @@ public class accountGeneration {
         cli.connect("abstract_project", "root", "student");
 
         String[] arr= new String[] {"2", "3"};
-        String[] interests = new String[] {"Python", "Java", "systems administration"};
+        String[] interests = new String[] {"Python", "Java", "SQL"};
+        String[] interests2 = new String[] {"Java", "Systems Administration", "Kerberos", "C++"};
         String p = null;
-        // cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
-        // cli.createFacultyAccount("professor2", "garretpassword", "Garret", "Arrorcaci", "gpvaks@g.rit.edu", 789, arr, "Golisano Hall");
-        // cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
-        // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 1);
-        // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 2);
+        cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
+        cli.createFacultyAccount("professor2", "garretpassword", "Garret", "Arrorcaci", "gpvaks@g.rit.edu", 789, arr, "Golisano Hall");
+        cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
+        cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 1);
+        cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 2);
         cli.insertInterests(interests, "faculty", 1);
-        // cli.insertInterests(interests, "student", 1);
+        cli.insertInterests(interests2, "faculty", 2);
+        cli.insertInterests(interests, "student", 1);
     }
 }
