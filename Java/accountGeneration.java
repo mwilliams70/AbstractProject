@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 
@@ -267,10 +267,10 @@ public class accountGeneration {
         accountGeneration cli = new accountGeneration();
         cli.connect("abstract_project", "root", "student");
 
-        String[] arr= new String[] {"2", "3"};
-        String[] interests = new String[] {"Python", "Java", "SQL"};
-        String[] interests2 = new String[] {"Java", "Systems Administration", "Kerberos", "C++"};
-        String p = null;
+        // String[] arr= new String[] {"2", "3"};
+        // String[] interests = new String[] {"Python", "Java", "SQL"};
+        // String[] interests2 = new String[] {"Java", "Systems Administration", "Kerberos", "C++"};
+       
         // cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
         // cli.createFacultyAccount("professor2", "garretpassword", "Garret", "Arrorcaci", "gpvaks@g.rit.edu", 789, arr, "Golisano Hall");
         // cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
@@ -283,6 +283,6 @@ public class accountGeneration {
         for (String result : results) {
             System.out.println(result);
         }
-        // System.out.println(Arrays.toString(results));
+        
     }
 }
