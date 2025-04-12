@@ -196,17 +196,56 @@ public class accountGeneration {
         }
     }
 
+    public void insertInterests(String[] interests, String role, int id) {
+        try {
+            for (String interest : interests) {
+                interest = interest.toLowerCase();
+                String sql = "SELECT interestID FROM interest WHERE content LIKE ?";
+                PreparedStatement check = conn.prepareStatement(sql);
+                check.setString(1, interest);
+                ResultSet rs = check.executeQuery();
+                int interestID;
+                if (rs.next()) {
+                    interestID = rs.getInt(1);
+                } else {
+                    String insertInterest = "INSERT INTO interest (content) VALUES (?)";
+                    PreparedStatement stmt = conn.prepareStatement(insertInterest, Statement.RETURN_GENERATED_KEYS);
+                    stmt.setString(1, interest);
+                    stmt.executeUpdate();
+
+                    ResultSet generatedIntID = stmt.getGeneratedKeys();
+                    if (generatedIntID.next()) {
+                        interestID = generatedIntID.getInt(1);
+                    } else {
+                        throw new SQLException("Interest Not Added");
+                    }
+                }
+
+                String roleInsert = "INSERT INTO " + role + "interest VALUES (?, ?)";
+                PreparedStatement roleLink = conn.prepareStatement(roleInsert);
+                roleLink.setInt(1, id);
+                roleLink.setInt(2, interestID);
+                roleLink.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+    }
+
 
     public static void main(String[] args) {
         accountGeneration cli = new accountGeneration();
         cli.connect("abstract_project", "root", "student");
 
         String[] arr= new String[] {"2", "3"};
+        String[] interests = new String[] {"Python", "Java", "sql"};
         String p = null;
-        cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
-        cli.createFacultyAccount("professor2", "garretpassword", "Garret", "Arrorcaci", "gpvaks@g.rit.edu", 789, arr, "Golisano Hall");
-        // cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
-        cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 1);
-        cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 2);
+        // cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
+        // cli.createFacultyAccount("professor2", "garretpassword", "Garret", "Arrorcaci", "gpvaks@g.rit.edu", 789, arr, "Golisano Hall");
+        cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
+        // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 1);
+        // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 2);
+        // cli.insertInterests(interests, "faculty", 2);
+        cli.insertInterests(interests, "student", 1);
     }
 }
