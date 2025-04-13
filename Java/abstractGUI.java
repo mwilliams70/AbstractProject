@@ -41,10 +41,8 @@ public class abstractGUI {
                 String inputUn = unText.getText();
                 String inputPwd = pwdText.getText();
 
-                System.out.println(Arrays.toString(userInfo));
-                System.out.println("Logged In? " + loggedIn);
                 loggedIn = abstractDB.loggedIn(inputUn, inputPwd, "student");
-                System.out.println("Logged In? " + loggedIn);
+                
                 if (loggedIn) {
                     userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "student");
                     JOptionPane.showMessageDialog(null, "Logged In Successfully", "Logged In", JOptionPane.INFORMATION_MESSAGE);
@@ -71,8 +69,12 @@ public class abstractGUI {
                 String inputUn = unText.getText();
                 String inputPwd = pwdText.getText();
 
-                System.out.println(Arrays.toString(userInfo));
-                userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "faculty");
+                loggedIn = abstractDB.loggedIn(inputUn, inputPwd, "faculty");
+                if (loggedIn) {
+                    userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "faculty");
+                    JOptionPane.showMessageDialog(null, "Logged In Successfully", "Logged In", JOptionPane.INFORMATION_MESSAGE);
+                }
+                
                 System.out.println("userInfo: " + Arrays.toString(userInfo));
             }
         });
@@ -94,8 +96,11 @@ public class abstractGUI {
                 String inputUn = unText.getText();
                 String inputPwd = pwdText.getText();
 
-                System.out.println(Arrays.toString(userInfo));
-                userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "publicUser");
+                loggedIn = abstractDB.loggedIn(inputUn, inputPwd, "publicUser");
+                if (loggedIn) {
+                    userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "publicUser");
+                    JOptionPane.showMessageDialog(null, "Logged In Successfully", "Logged In", JOptionPane.INFORMATION_MESSAGE);
+                }
                 System.out.println("userInfo: " + Arrays.toString(userInfo));
             }
         });
