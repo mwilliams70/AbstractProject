@@ -7,12 +7,13 @@ public class abstractGUI {
     public boolean connected;
     public boolean loggedIn = false;
     public Object[] userInfo;
+    private JFrame gui;
 
     public abstractGUI() {
         accountGeneration abstractDB = new accountGeneration();
         abstractDB.connect("abstract_project", "root", "student");
 
-        JFrame gui = new JFrame("Abstract Project");
+        gui = new JFrame("Abstract Project");
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setSize(800, 600);
         gui.setLocation(500, 100);
@@ -46,6 +47,7 @@ public class abstractGUI {
                 if (loggedIn) {
                     userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "student");
                     JOptionPane.showMessageDialog(null, "Logged In Successfully", "Logged In", JOptionPane.INFORMATION_MESSAGE);
+                    gui.dispose();
                 }
                 
                 System.out.println("userInfo: " + Arrays.toString(userInfo));
@@ -73,6 +75,7 @@ public class abstractGUI {
                 if (loggedIn) {
                     userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "faculty");
                     JOptionPane.showMessageDialog(null, "Logged In Successfully", "Logged In", JOptionPane.INFORMATION_MESSAGE);
+                    gui.dispose();
                 }
                 
                 System.out.println("userInfo: " + Arrays.toString(userInfo));
@@ -100,6 +103,7 @@ public class abstractGUI {
                 if (loggedIn) {
                     userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "publicUser");
                     JOptionPane.showMessageDialog(null, "Logged In Successfully", "Logged In", JOptionPane.INFORMATION_MESSAGE);
+                    gui.dispose();
                 }
                 System.out.println("userInfo: " + Arrays.toString(userInfo));
             }
@@ -308,7 +312,6 @@ public class abstractGUI {
         gui.add(app);
         gui.setVisible(true);
         // System.out.println("userInfo: " + Arrays.toString(userInfo));
-
 
     }
 
