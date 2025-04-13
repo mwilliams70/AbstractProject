@@ -16,3 +16,8 @@ select content FROM interest
     JOIN facultyinterest USING (interestID)
     JOIN faculty USING(facultyID) 
     where facultyID=2
+
+SELECT * FROM account
+    WHERE facultyID IS NOT NULL
+    OR studentID IS NOT NULL
+    OR publicUserID IS NOT NULL;

@@ -264,6 +264,69 @@ public class accountGeneration {
         }
     }
 
+    public Object[] getBasicInformation(String username, String password, String role) {
+        password = encrypt(password);
+        List<String> accountResults = new ArrayList<>();
+        List<Object> finalResults = new ArrayList<>();
+        try {
+            String sqlAcc = "SELECT username, password, " + role + "ID FROM account" +
+                             " WHERE username LIKE ? and password LIKE ?";
+            PreparedStatement accStmt = conn.prepareStatement(sqlAcc);
+            accStmt.setString(1, username);
+            accStmt.setString(2, password);
+            ResultSet rs = accStmt.executeQuery();
+            while (rs.next()) {
+                accountResults.add(rs.getString(1));
+                accountResults.add(rs.getString(2));
+                accountResults.add(rs.getString(3));
+            }
+            if (role.equals("faculty")) {
+                String basicFacultyInfo = "SELECT * FROM faculty where facultyID=?";
+                PreparedStatement basicFacultyInfoStmt = conn.prepareStatement(basicFacultyInfo);
+                basicFacultyInfoStmt.setString(1, accountResults.get(2));
+                ResultSet resultsFaculty = basicFacultyInfoStmt.executeQuery();
+                while (resultsFaculty.next()) {
+                    finalResults.add(resultsFaculty.getInt(1));
+                    finalResults.add(resultsFaculty.getString(2));
+                    finalResults.add(resultsFaculty.getString(3));
+                    finalResults.add(resultsFaculty.getString(4));
+                    finalResults.add(resultsFaculty.getInt(5));
+                    finalResults.add(resultsFaculty.getString(6));
+                }
+                return finalResults.toArray(new Object[0]);
+            } else if (role.equals("student")) {
+                String basicStudentInfo = "SELECT * FROM student where studentID=?";
+                PreparedStatement basicStudentInfoStmt = conn.prepareStatement(basicStudentInfo);
+                basicStudentInfoStmt.setString(1, accountResults.get(2));
+                ResultSet resultsStudent = basicStudentInfoStmt.executeQuery();
+                while (resultsStudent.next()) {
+                    finalResults.add(resultsStudent.getInt(1));
+                    finalResults.add(resultsStudent.getString(2));
+                    finalResults.add(resultsStudent.getString(3));
+                    finalResults.add(resultsStudent.getString(4));
+                }
+                return finalResults.toArray(new Object[0]);
+            } else if (role.equals("public")) {
+                String basicPublicInfo = "SELECT * FROM publicuser WHERE publicUserID=?";
+                PreparedStatement basicPublicStmt = conn.prepareStatement(basicPublicInfo);
+                basicPublicStmt.setString(1, accountResults.get(2));
+                ResultSet resultsPublic = basicPublicStmt.executeQuery();
+                while (resultsPublic.next()) {
+                    finalResults.add(resultsPublic.getInt(1));
+                    finalResults.add(resultsPublic.getString(2));
+                    finalResults.add(resultsPublic.getString(3));
+                }
+                return finalResults.toArray(new Object[0]);
+            } else {
+                return new Object[finalResults.size()];
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Object[finalResults.size()];
+        }
+    }
+
     public static void main(String[] args) {
         accountGeneration cli = new accountGeneration();
         cli.connect("abstract_project", "root", "student");
@@ -275,14 +338,19 @@ public class accountGeneration {
         // cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
         // cli.createFacultyAccount("professor2", "garretpassword", "Garret", "Arrorcaci", "gpvaks@g.rit.edu", 789, arr, "Golisano Hall");
         // cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
+        // cli.createPublicUserAccount("public", "user", "Library", "3151234567");
         // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 1);
         // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 2);
         // cli.insertInterests(interests, "faculty", 1);
         // cli.insertInterests(interests2, "faculty", 2);
         // cli.insertInterests(interests, "student", 1);
-        String[] results = cli.getInterest(1, "faculty");
-        for (String result : results) {
-            System.out.println(result);
+        // String[] results = cli.getInterest(1, "faculty");
+        // for (String result : results) {
+        //     System.out.println(result);
+        // }
+        Object[] bi = cli.getBasicInformation("msw7476", "studentpassword", "student");
+        for (Object b : bi) {
+            System.out.println(b + "__");
         }
         
     }
