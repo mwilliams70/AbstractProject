@@ -242,8 +242,6 @@ public class abstractGUI {
                         publicCreate.add(contactInfo);
                         publicCreate.add(contactInput);
 
-                     
-
                         JOptionPane.showMessageDialog(null, publicCreate, "Public User Creation", JOptionPane.QUESTION_MESSAGE);
                         abstractDB.createPublicUserAccount(unInput.getText(), pwdInput.getText(),
                          orgInput.getText(), contactInput.getText());
