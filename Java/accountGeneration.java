@@ -46,6 +46,23 @@ public class accountGeneration {
         return "SELECT MAX(" + role + "ID) FROM " + role;
     }
 
+    public String[] getCollegeIDs() {
+        List<String> results = new ArrayList<>();
+        try {
+            
+            String sql = "SELECT * FROM college ORDER BY collegeID ASC";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                results.add("[" + rs.getInt(1) + "] " + rs.getString(2));
+            }
+            return results.toArray(new String[0]);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return results.toArray(new String[0]);
+        }
+    }
+
     public void insertAccount(String table, String un, String pswd, int id) {
         String insertAccount = "INSERT INTO account (username, password, " + table + "ID) VALUES(?, ?, ?)";
         try {
@@ -306,7 +323,7 @@ public class accountGeneration {
                     finalResults.add(resultsStudent.getString(4));
                 }
                 return finalResults.toArray(new Object[0]);
-            } else if (role.equals("public")) {
+            } else if (role.equals("publicUser")) {
                 String basicPublicInfo = "SELECT * FROM publicuser WHERE publicUserID=?";
                 PreparedStatement basicPublicStmt = conn.prepareStatement(basicPublicInfo);
                 basicPublicStmt.setString(1, accountResults.get(2));
@@ -348,7 +365,7 @@ public class accountGeneration {
         // for (String result : results) {
         //     System.out.println(result);
         // }
-        Object[] bi = cli.getBasicInformation("msw7476", "studentpassword", "student");
+        Object[] bi = cli.getBasicInformation("professor", "password", "faculty");
         for (Object b : bi) {
             System.out.println(b + "__");
         }
