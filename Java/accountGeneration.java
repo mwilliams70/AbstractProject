@@ -281,6 +281,7 @@ public class accountGeneration {
         }
     }
 
+    // logs the user in and stores their information
     public Object[] getBasicInformation(String username, String password, String role) {
         password = encrypt(password);
         List<String> accountResults = new ArrayList<>();
