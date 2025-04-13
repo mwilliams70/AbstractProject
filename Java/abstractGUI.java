@@ -311,8 +311,6 @@ public class abstractGUI {
         app.add(createAccount);
         gui.add(app);
         gui.setVisible(true);
-        // System.out.println("userInfo: " + Arrays.toString(userInfo));
-
     }
 
     private JPanel createFieldRow(JLabel label, JTextField field) {
