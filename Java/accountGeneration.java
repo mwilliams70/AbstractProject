@@ -280,15 +280,34 @@ public class accountGeneration {
             return new String[results.size()];
         }
     }
+    
+    public boolean loggedIn(String username, String password, String role) {
+        password = encrypt(password);
+        try {
+            String sql = "SELECT username, password, " + role + "ID FROM account " +
+                         "WHERE username = ? and password = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-    // logs the user in and stores their information
     public Object[] getBasicInformation(String username, String password, String role) {
         password = encrypt(password);
         List<String> accountResults = new ArrayList<>();
         List<Object> finalResults = new ArrayList<>();
         try {
             String sqlAcc = "SELECT username, password, " + role + "ID FROM account" +
-                             " WHERE username LIKE ? and password LIKE ?";
+                             " WHERE username = ? and password = ?";
             PreparedStatement accStmt = conn.prepareStatement(sqlAcc);
             accStmt.setString(1, username);
             accStmt.setString(2, password);

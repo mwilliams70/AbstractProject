@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 public class abstractGUI {
     public boolean connected;
+    public boolean loggedIn = false;
     public Object[] userInfo;
 
     public abstractGUI() {
@@ -41,7 +42,14 @@ public class abstractGUI {
                 String inputPwd = pwdText.getText();
 
                 System.out.println(Arrays.toString(userInfo));
-                userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "student");
+                System.out.println("Logged In? " + loggedIn);
+                loggedIn = abstractDB.loggedIn(inputUn, inputPwd, "student");
+                System.out.println("Logged In? " + loggedIn);
+                if (loggedIn) {
+                    userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "student");
+                    JOptionPane.showMessageDialog(null, "Logged In Successfully", "Logged In", JOptionPane.INFORMATION_MESSAGE);
+                }
+                
                 System.out.println("userInfo: " + Arrays.toString(userInfo));
             }
         });
