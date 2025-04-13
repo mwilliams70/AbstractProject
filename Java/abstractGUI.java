@@ -219,9 +219,40 @@ public class abstractGUI {
                         
                     }
                 });
+                pub.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ae) {
+                        JPanel publicCreate = new JPanel();
+                        publicCreate.setLayout(new GridLayout(4, 2));
+                        JLabel un = new JLabel("Enter Username: ");
+                        JLabel pwd = new JLabel("Enter Password: ");
+                        JLabel orgName = new JLabel("Enter Organization Name (Ex: Public Library): ");
+                        JLabel contactInfo = new JLabel("Enter Contact Information (Phone Number, eMail, etc.): ");
+
+                        JTextField unInput = new JTextField();
+                        JTextField pwdInput = new JTextField();
+                        JTextField orgInput = new JTextField();
+                        JTextField contactInput = new JTextField();
+
+                        publicCreate.add(un);
+                        publicCreate.add(unInput);
+                        publicCreate.add(pwd);
+                        publicCreate.add(pwdInput);
+                        publicCreate.add(orgName);
+                        publicCreate.add(orgInput);
+                        publicCreate.add(contactInfo);
+                        publicCreate.add(contactInput);
+
+                     
+
+                        JOptionPane.showMessageDialog(null, publicCreate, "Public User Creation", JOptionPane.QUESTION_MESSAGE);
+                        abstractDB.createPublicUserAccount(unInput.getText(), pwdInput.getText(),
+                         orgInput.getText(), contactInput.getText());
+                    }
+                });
             }
         });
 
+        
         // JButton modifyBtn = new JButton("Modify Interests");
 
         // modifyBtn.addActionListener(new ActionListener() {
