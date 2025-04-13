@@ -252,7 +252,7 @@ public class accountGeneration {
                 PreparedStatement roleLink = conn.prepareStatement(roleInsert);
                 roleLink.setInt(1, id);
                 roleLink.setInt(2, interestID);
-                int rowsaffected = roleLink.executeUpdate();
+                roleLink.executeUpdate();
                 
             }
         } catch (SQLException e) {
