@@ -122,13 +122,14 @@ public class abstractGUI {
                         JLabel firstName = new JLabel("Enter First Name: ");
                         JLabel lastName = new JLabel("Enter Last Name: ");
                         JLabel email = new JLabel("Enter eMail: ");
+                        
 
                         String[] ids = abstractDB.getCollegeIDs();
                         StringBuilder finalIDs = new StringBuilder();
                         for (String id : ids){
                             finalIDs.append(id).append("\n");
                         }
-                        finalIDs.append("Enter # ID of Your College: ");
+                        finalIDs.append("Enter # ID's of Your College (Ex: 1 2): ");
                         JTextArea idsLabel = new JTextArea(finalIDs.toString());
                         idsLabel.setEditable(false);
                         idsLabel.setOpaque(false);
@@ -142,7 +143,7 @@ public class abstractGUI {
                         JTextField emailInput = new JTextField();
                         JTextField collegeIDInput = new JTextField();
                         JTextField majorInput = new JTextField();
-
+                        
                         studentCreate.add(createFieldRow(un, unInput));
                         studentCreate.add(createFieldRow(pwd, pwdInput));
                         studentCreate.add(createFieldRow(firstName, fnInput));
@@ -154,11 +155,68 @@ public class abstractGUI {
                         
                         studentCreate.add(createFieldRow(major, majorInput));
 
+
                         JOptionPane.showMessageDialog(null, studentCreate, "Create Student Account", JOptionPane.QUESTION_MESSAGE);
 
                         abstractDB.createStudentAccount(unInput.getText(), pwdInput.getText(),
                          fnInput.getText(), lnInput.getText(), emailInput.getText(), 
                          Integer.parseInt(collegeIDInput.getText()), majorInput.getText());
+                    }
+                });
+            
+                faculty.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ae) {
+                        JPanel facultyCreate = new JPanel();
+                        facultyCreate.setLayout(new BoxLayout(facultyCreate, BoxLayout.Y_AXIS));
+                        JLabel un = new JLabel("Enter Username: ");
+                        JLabel pwd = new JLabel("Enter Password: ");
+                        JLabel firstName = new JLabel("Enter First Name: ");
+                        JLabel lastName = new JLabel("Enter Last Name: ");
+                        JLabel email = new JLabel("Enter eMail: ");
+                        JLabel officeNum = new JLabel("Enter Office Number: ");
+                        JLabel building = new JLabel("Enter What Building Your Office Is In: ");
+                        String[] ids = abstractDB.getCollegeIDs();
+                        StringBuilder finalIDs = new StringBuilder();
+                        for (String id : ids){
+                            finalIDs.append(id).append("\n");
+                        }
+                        finalIDs.append("Enter # ID's of Your College (Ex: 1 2): ");
+                        JTextArea idsLabel = new JTextArea(finalIDs.toString());
+                        idsLabel.setEditable(false);
+                        idsLabel.setOpaque(false);
+                        JTextField unInput = new JTextField();
+                        JTextField pwdInput = new JTextField();
+                        JTextField fnInput = new JTextField();
+                        JTextField lnInput = new JTextField();
+                        JTextField emailInput = new JTextField();
+                        JTextField collegeIDInput = new JTextField();
+                    
+                        JTextField officeInput = new JTextField();
+                        JTextField buildingInput = new JTextField();
+
+                        facultyCreate.add(createFieldRow(un, unInput));
+                        facultyCreate.add(createFieldRow(pwd, pwdInput));
+                        facultyCreate.add(createFieldRow(firstName, fnInput));
+                        facultyCreate.add(createFieldRow(lastName, lnInput));
+                        facultyCreate.add(createFieldRow(email, emailInput));
+
+                        facultyCreate.add(idsLabel);
+                        facultyCreate.add(collegeIDInput);
+
+                        facultyCreate.add(createFieldRow(officeNum, officeInput));
+                        facultyCreate.add(createFieldRow(building, buildingInput));
+
+                        JOptionPane.showMessageDialog(null, facultyCreate, "Create Faculty Account", JOptionPane.QUESTION_MESSAGE);
+                        
+                        String[] collegeIDArray = collegeIDInput.getText().split(" ");
+                        
+                        abstractDB.createFacultyAccount(unInput.getText(),
+                         pwdInput.getText(), fnInput.getText(), lnInput.getText(),
+                         emailInput.getText(), Integer.parseInt(officeInput.getText()), collegeIDArray,
+                         buildingInput.getText()
+                        );
+                        
+                        
                     }
                 });
             }
