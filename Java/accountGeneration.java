@@ -364,11 +364,23 @@ public class accountGeneration {
         }
     }
 
+    public void deleteAbstract(int facultyID, int abstractID) {
+        try{
+            String sql = "DELETE FROM facultyabstract WHERE facultyID=? AND abstractID=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, facultyID);
+            stmt.setInt(2, abstractID);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         accountGeneration cli = new accountGeneration();
         cli.connect("abstract_project", "root", "student");
 
-        // String[] arr= new String[] {"2", "3"};
+        String[] arr= new String[] {"2", "3"};
         // String[] interests = new String[] {"Python", "Java", "SQL"};
         // String[] interests2 = new String[] {"Java", "Systems Administration", "Kerberos", "C++"};
        
@@ -389,6 +401,7 @@ public class accountGeneration {
         for (Object b : bi) {
             System.out.println(b + "__");
         }
+        cli.deleteAbstract(2, 1);
         
     }
 }

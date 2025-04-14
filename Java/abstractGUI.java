@@ -55,6 +55,7 @@ public class abstractGUI {
                     JFrame studentGUI = new JFrame("Student Dashboard");
                     studentGUI.setSize(400, 300);
                     studentGUI.setLocation(500, 100);
+                    studentGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     
                     JPanel studentApp = new JPanel();
                     studentApp.setLayout(new GridLayout(2, 0));
@@ -81,8 +82,8 @@ public class abstractGUI {
                 fl.setLayout(new GridLayout(2, 2));
                 JLabel un = new JLabel("Username: ");
                 JLabel pwd = new JLabel("Password");
-                JTextField unText = new JTextField("");
-                JTextField pwdText = new JTextField("");
+                JTextField unText = new JTextField("professor");
+                JTextField pwdText = new JTextField("password");
                 fl.add(un);
                 fl.add(unText);
                 fl.add(pwd);
@@ -98,6 +99,24 @@ public class abstractGUI {
                     role="faculty";
                     JOptionPane.showMessageDialog(null, "Logged In Successfully", "Logged In", JOptionPane.INFORMATION_MESSAGE);
                     gui.dispose();
+
+                    JFrame facultyGUI = new JFrame("Faculty Dashboard");
+                    facultyGUI.setSize(400, 300);
+                    facultyGUI.setLocation(500, 100);
+                    facultyGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                    JPanel facultyApp = new JPanel();
+                    facultyApp.setLayout(new GridLayout(2, 0));
+                    JButton interests = new JButton("View or Change My Interests");
+                    interests.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent ae) {
+                            modifyBtn("faculty");
+                        }
+                    });
+                    displayUserInformation("faculty", facultyApp);
+                    facultyApp.add(interests);
+                    facultyGUI.add(facultyApp);
+                    facultyGUI.setVisible(true);
                 }
                 
                 System.out.println("userInfo: " + Arrays.toString(userInfo));
@@ -350,18 +369,32 @@ public class abstractGUI {
     }
 
     public void displayUserInformation(String role, JPanel panel) {
+        String id;
+        String fullName;
+        String email;
         if (role.equals("student")) {
-            String id = userInfo[0].toString();
-            String fullName = userInfo[1].toString() + " " + userInfo[2].toString();
-            String email = userInfo[3].toString();
+            id = userInfo[0].toString();
+            fullName = userInfo[1].toString() + " " + userInfo[2].toString();
+            email = userInfo[3].toString();
 
-            JLabel infoLabel = new JLabel("<html><b>ID: </b>" + id + "<br><b>Name: </b> " + fullName + "<br><b>Email: </b>" + email + "</html>");
-            panel.add(infoLabel);
+            JLabel studentLabel = new JLabel("<html><b>ID: </b>" + id + "<br><b>Name: </b> " + fullName + "<br><b>Email: </b>" + email + "</html>");
+            panel.add(studentLabel);
            
+        } else if (role.equals("faculty")) {
+            id = userInfo[0].toString();
+            fullName = userInfo[1].toString() + " " + userInfo[2].toString();
+            email = userInfo[3].toString();
+            String building = userInfo[5].toString();
+            String room = userInfo[4].toString();
+
+            JLabel facultyLabel = new JLabel("<html><b>ID: </b>" + id +
+                                            "<br><b>Name: </b> " + fullName +
+                                            "<br><b>eMail: </b> " + email +
+                                            "<br><b>Building: </b> " + building +
+                                            "<br><b>Room Number: </b> " + room);
+            panel.add(facultyLabel);
         }
     }
-    
-    
     public static void main(String[] args) {
         new abstractGUI();
     }
