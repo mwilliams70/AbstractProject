@@ -351,10 +351,11 @@ public class abstractGUI {
 
     public void displayUserInformation(String role, JPanel panel) {
         if (role.equals("student")) {
+            String id = userInfo[0].toString();
             String fullName = userInfo[1].toString() + " " + userInfo[2].toString();
             String email = userInfo[3].toString();
 
-            JLabel infoLabel = new JLabel("<html><b>Name: </b> " + fullName + "<br><b>Email: </b>" + email + "</html>");
+            JLabel infoLabel = new JLabel("<html><b>ID: </b>" + id + "<br><b>Name: </b> " + fullName + "<br><b>Email: </b>" + email + "</html>");
             panel.add(infoLabel);
            
         }
