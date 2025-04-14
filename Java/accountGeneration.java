@@ -265,7 +265,7 @@ public class accountGeneration {
         try {
             String sql = "SELECT content FROM interest JOIN " + 
                 role + "interest USING (interestID) JOIN " + 
-                role + " USING (" + role + "ID) WHERE facultyID=?";
+                role + " USING (" + role + "ID) WHERE " + role + "ID=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);
             

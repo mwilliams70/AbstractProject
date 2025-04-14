@@ -6,11 +6,13 @@ import java.util.Arrays;
 public class abstractGUI {
     public boolean connected;
     public boolean loggedIn = false;
+    public String role;
     public Object[] userInfo;
     private JFrame gui;
+    public accountGeneration abstractDB;
 
     public abstractGUI() {
-        accountGeneration abstractDB = new accountGeneration();
+        abstractDB = new accountGeneration();
         abstractDB.connect("abstract_project", "root", "student");
 
         gui = new JFrame("Abstract Project");
@@ -46,8 +48,27 @@ public class abstractGUI {
                 
                 if (loggedIn) {
                     userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "student");
+                    role="student";
                     JOptionPane.showMessageDialog(null, "Logged In Successfully", "Logged In", JOptionPane.INFORMATION_MESSAGE);
                     gui.dispose();
+                    
+                    JFrame studentGUI = new JFrame("Student Dashboard");
+                    studentGUI.setSize(400, 300);
+                    studentGUI.setLocation(500, 100);
+                    
+                    JPanel studentApp = new JPanel();
+                    studentApp.setLayout(new GridLayout(1, 0));
+                    JButton interests = new JButton("View or Change My Interests");
+                    interests.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent ae) {
+                            modifyBtn("student");
+                        }
+                    });
+
+
+                    studentApp.add(interests);
+                    studentGUI.add(studentApp);
+                    studentGUI.setVisible(true);
                 }
                 
                 System.out.println("userInfo: " + Arrays.toString(userInfo));
@@ -74,6 +95,7 @@ public class abstractGUI {
                 loggedIn = abstractDB.loggedIn(inputUn, inputPwd, "faculty");
                 if (loggedIn) {
                     userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "faculty");
+                    role="faculty";
                     JOptionPane.showMessageDialog(null, "Logged In Successfully", "Logged In", JOptionPane.INFORMATION_MESSAGE);
                     gui.dispose();
                 }
@@ -102,6 +124,7 @@ public class abstractGUI {
                 loggedIn = abstractDB.loggedIn(inputUn, inputPwd, "publicUser");
                 if (loggedIn) {
                     userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "publicUser");
+                    role="publicUser";
                     JOptionPane.showMessageDialog(null, "Logged In Successfully", "Logged In", JOptionPane.INFORMATION_MESSAGE);
                     gui.dispose();
                 }
@@ -272,38 +295,11 @@ public class abstractGUI {
 
         // modifyBtn.addActionListener(new ActionListener() {
         //     public void actionPerformed(ActionEvent ae) {
-        //         JPanel main = new JPanel();
-        //         main.setLayout(new GridLayout(3, 2));
-        //         JLabel int1 = new JLabel("Interest 1: ");
-        //         JLabel int2 = new JLabel("Interest 2: ");
-        //         JLabel int3 = new JLabel("Interest 3: ");
-
-        //         String[] interests = abstractDB.getInterest(1, "faculty");
-
-        //         JTextField userInt1 = new JTextField(interests[0]);
-        //         JTextField userInt2 = new JTextField(interests[1]);
-        //         JTextField userInt3 = new JTextField(interests[2]);
-
-        //         main.add(int1);
-        //         main.add(userInt1);
-        //         main.add(int2);
-        //         main.add(userInt2);
-        //         main.add(int3);
-        //         main.add(userInt3);
-
-        //         JOptionPane.showMessageDialog(null, main, "Modify", JOptionPane.QUESTION_MESSAGE);
-                
-        //         String inputtedInt1 = userInt1.getText();
-        //         String inputtedInt2 = userInt2.getText();
-        //         String inputtedInt3 = userInt3.getText();
-        //         String[] intArr = new String[] {inputtedInt1, inputtedInt2, inputtedInt3};
-
-        //         abstractDB.insertInterests(intArr, "faculty", 1);
-
-        //         JOptionPane.showMessageDialog(null, "Interests Updated!", "Updated", JOptionPane.INFORMATION_MESSAGE);
-                
+ 
         //     }
         // });
+
+
 
         app.add(studentLogin);
         app.add(facultyLogin);
@@ -311,6 +307,9 @@ public class abstractGUI {
         app.add(createAccount);
         gui.add(app);
         gui.setVisible(true);
+
+        
+            
     }
 
     private JPanel createFieldRow(JLabel label, JTextField field) {
@@ -319,6 +318,51 @@ public class abstractGUI {
         panel.add(field, BorderLayout.CENTER);
         return panel;
     }
+    
+    private void modifyBtn(String role) {
+        JPanel main = new JPanel();
+        main.setLayout(new GridLayout(3, 2));
+        JLabel int1 = new JLabel("Interest 1: ");
+        JLabel int2 = new JLabel("Interest 2: ");
+        JLabel int3 = new JLabel("Interest 3: ");
+    
+        String[] interests = abstractDB.getInterest(Integer.parseInt(userInfo[0].toString()), role);
+        System.out.println(Arrays.toString(interests));
+    
+        if (interests == null || interests.length < 3) {
+            interests = new String[] {"", "", ""};
+        } else if (interests.length == 1) {
+            interests = new String[] {interests[0], "", ""};
+        } else if (interests.length==2) {
+            interests = new String[] {interests[0], interests[1], ""};
+        }
+        
+        JTextField userInt1 = new JTextField(interests[0]);
+        JTextField userInt2 = new JTextField(interests[1]);
+        JTextField userInt3 = new JTextField(interests[2]);
+    
+        main.add(int1);
+        main.add(userInt1);
+        main.add(int2);
+        main.add(userInt2);
+        main.add(int3);
+        main.add(userInt3);
+    
+        JOptionPane.showMessageDialog(null, main, "Modify", JOptionPane.QUESTION_MESSAGE);
+        
+        String inputtedInt1 = userInt1.getText();
+        String inputtedInt2 = userInt2.getText();
+        String inputtedInt3 = userInt3.getText();
+        
+        String[] intArr = new String[] {inputtedInt1, inputtedInt2, inputtedInt3};
+        System.out.println(Arrays.toString(intArr));
+    
+        abstractDB.insertInterests(intArr, role, Integer.parseInt(userInfo[0].toString()));
+    
+        JOptionPane.showMessageDialog(null, "Interests Updated!", "Updated", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    
     public static void main(String[] args) {
         new abstractGUI();
     }
