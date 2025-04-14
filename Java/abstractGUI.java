@@ -290,26 +290,13 @@ public class abstractGUI {
             }
         });
 
-        
-        // JButton modifyBtn = new JButton("Modify Interests");
-
-        // modifyBtn.addActionListener(new ActionListener() {
-        //     public void actionPerformed(ActionEvent ae) {
- 
-        //     }
-        // });
-
-
 
         app.add(studentLogin);
         app.add(facultyLogin);
         app.add(publicUserLogin);
         app.add(createAccount);
         gui.add(app);
-        gui.setVisible(true);
-
-        
-            
+        gui.setVisible(true); 
     }
 
     private JPanel createFieldRow(JLabel label, JTextField field) {
