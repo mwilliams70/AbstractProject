@@ -57,7 +57,7 @@ public class abstractGUI {
                     studentGUI.setLocation(500, 100);
                     
                     JPanel studentApp = new JPanel();
-                    studentApp.setLayout(new GridLayout(1, 0));
+                    studentApp.setLayout(new GridLayout(2, 0));
                     JButton interests = new JButton("View or Change My Interests");
                     interests.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent ae) {
@@ -65,7 +65,7 @@ public class abstractGUI {
                         }
                     });
 
-
+                    displayUserInformation("student", studentApp);
                     studentApp.add(interests);
                     studentGUI.add(studentApp);
                     studentGUI.setVisible(true);
@@ -347,6 +347,17 @@ public class abstractGUI {
         abstractDB.insertInterests(intArr, role, Integer.parseInt(userInfo[0].toString()));
     
         JOptionPane.showMessageDialog(null, "Interests Updated!", "Updated", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void displayUserInformation(String role, JPanel panel) {
+        if (role.equals("student")) {
+            String fullName = userInfo[1].toString() + " " + userInfo[2].toString();
+            String email = userInfo[3].toString();
+
+            JLabel infoLabel = new JLabel("<html><b>Name: </b> " + fullName + "<br><b>Email: </b>" + email + "</html>");
+            panel.add(infoLabel);
+           
+        }
     }
     
     
