@@ -377,7 +377,7 @@ public class accountGeneration {
         }
     }
 
-    public void searchAbstract(String interest){
+    public void studentSearchAbstract(String interest){
         try {
             String query = "{CALL search_abstract_student(?)}";
             CallableStatement stmt = conn.prepareCall(query);
@@ -395,6 +395,14 @@ public class accountGeneration {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void facultySearchStudents(String interest) {
+        try {
+            
+        } catch (Exception e) {
+            // TODO: handle exception
         }
     }
 
@@ -424,7 +432,7 @@ public class accountGeneration {
         //     System.out.println(b + "__");
         // }
         // cli.deleteAbstract(2, 1);
-        cli.searchAbstract("ubuntu");
+        cli.studentSearchAbstract("ubuntu");
         
     }
 }

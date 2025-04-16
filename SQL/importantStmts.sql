@@ -32,3 +32,7 @@ SELECT a.title, a.author, a.content, GROUP_CONCAT(f.email SEPARATOR ' | ') AS Em
     WHERE interest.content = "ansible"
     GROUP BY a.title, a.author, a.content;
     
+SELECT CONCAT(s.firstName, ' ', s.lastName), s.email FROM student s 
+    JOIN studentinterest USING (studentID)
+    JOIN interest i USING (interestID)
+    WHERE i.content = "sql";

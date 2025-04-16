@@ -127,7 +127,7 @@ INSERT INTO college VALUES(11, "School of Individualized Study");
 
 
 DROP PROCEDURE IF EXISTS `search_abstract_student`;
-
+DROP PROCEDURE IF EXISTS `faculty_search_students`;
 DELIMITER $$
 CREATE PROCEDURE search_abstract_student(
     IN input_interest VARCHAR(50)
@@ -142,8 +142,20 @@ CREATE PROCEDURE search_abstract_student(
             JOIN interest USING (interestID)
             WHERE interest.content = input_interest
             GROUP BY a.title, a.author, a.content;
+    END;
+$$
+
+CREATE PROCEDURE faculty_search_students(
+    IN input_interest VARCHAR(50)
+)
+    BEGIN
+        SELECT CONCAT(s.firstName, ' ', s.lastName) AS Name, s.email FROM student s 
+            JOIN studentinterest USING (studentID)
+            JOIN interest i USING (interestID)
+            WHERE i.content = input_interest;
     END
 $$ 
 DELIMITER ;
 
 CALL search_abstract_student("ansible");
+CALL faculty_search_students("sql");
