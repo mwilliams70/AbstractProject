@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -359,8 +359,11 @@ public class accountGeneration {
                 return new Object[finalResults.size()];
             }
             
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+            return new Object[finalResults.size()];
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("No Results Found");
             return new Object[finalResults.size()];
         }
     }
@@ -377,32 +380,61 @@ public class accountGeneration {
         }
     }
 
-    public void studentSearchAbstract(String interest){
+    public String[][] studentSearchAbstract(String interest){
+        List<String[]> searchResults = new ArrayList<>();
+
         try {
             String query = "{CALL search_abstract_student(?)}";
             CallableStatement stmt = conn.prepareCall(query);
             stmt.setString(1, interest);
             ResultSet rs = stmt.executeQuery();
-            if (!rs.next()){
+            
+            boolean hasRs = false;
+            while (rs.next()) {
+                String[] indivResults = new String[5];
+                hasRs = true;
+                indivResults[0] = rs.getString(1);
+                indivResults[1] = rs.getString(2);
+                indivResults[2] = rs.getString(3);
+                indivResults[3] = rs.getString(4);
+                indivResults[4] = rs.getString(5);
+                searchResults.add(indivResults);
+            }
+            
+            if (!hasRs){
                 System.out.println("No Abstracts Found");
             }
-            while (rs.next()) {
-                System.out.println(rs.getString(1));
-                System.out.println(rs.getString(2));
-                System.out.println(rs.getString(3));
-                System.out.println(rs.getString(4));
-                System.out.println(rs.getString(5));
-            }
+            return searchResults.toArray(new String[0][]); 
         } catch (SQLException e) {
             e.printStackTrace();
+            return searchResults.toArray(new String[0][0]);
         }
     }
 
-    public void facultySearchStudents(String interest) {
+    public String[][] facultySearchStudents(String interest) {
+        List<String[]> searchResults = new ArrayList<>();
+        
         try {
+            String query = "{CALL faculty_search_students(?)}";
+            CallableStatement stmt = conn.prepareCall(query);
+            stmt.setString(1, interest);
+            ResultSet rs = stmt.executeQuery();
+            boolean hasRs = false;
+            while (rs.next()) {
+                String[] indivResults = new String[2];
+                hasRs = true;
+                indivResults[0] = rs.getString(1);
+                indivResults[1] = rs.getString(2);
+                searchResults.add(indivResults);
+            }
             
-        } catch (Exception e) {
-            // TODO: handle exception
+            if (!hasRs) {
+                System.out.println("No students currently interested in " + interest);
+            }
+            return searchResults.toArray(new String[0][]);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return searchResults.toArray(new String[0][0]);
         }
     }
 
@@ -411,28 +443,45 @@ public class accountGeneration {
         cli.connect("abstract_project", "root", "student");
 
         String[] arr= new String[] {"2", "3"};
-        // String[] interests = new String[] {"Python", "Java", "SQL"};
-        // String[] interests2 = new String[] {"Java", "Systems Administration", "Kerberos", "C++"};
+        String[] interests = new String[] {"Python", "Java", "SQL"};
+        String[] interests2 = new String[] {"Java", "Systems Administration", "Kerberos", "C++"};
        
-        // cli.createFacultyAccount("professor", "password", "JIM", "Habermas", "asdklfjasdkljf", 2342 ,arr, "Golisano Hall");
-        // cli.createFacultyAccount("professor2", "garretpassword", "Garret", "Arrorcaci", "gpvaks@g.rit.edu", 789, arr, "Golisano Hall");
+        // +-------------------------------------------------------------------------------------------+
+        // | UNCOMMENT ALL OF THE cli.* AND RUN WHEN DATABASE IS SOURCED, IT WILL POPULATE THE DATABASE|
+        // +-------------------------------------------------------------------------------------------+
+
+        // cli.createFacultyAccount("weisusername", "password", "Johnathon", "Weismann", "jweissman@g.rit.edu", 5432, arr, "Golisano Hall");
+        // cli.createFacultyAccount("jhabermas", "password", "Jim", "Habermas", "jha@rit.edu", 1234, arr, "Golisano Hall");
+        // cli.createFacultyAccount("gpvaks", "password", "Garrett", "Arcoraci", "gpvaks@rit.edu", 9765, new String[] {"2"}, "Golisano Hall");
+        // cli.createStudentAccount("abc123", "newpass", "Test", "User", "abc123@gmail.com", 3, "SoftDev");
         // cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
         // cli.createPublicUserAccount("public", "user", "Library", "3151234567");
-        // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 1);
+        // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 3);
         // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 2);
+        // cli.insertFacultyAbstract("Weisman Abstract", "Johnathon Weismann", "Abstract text", 1);
         // cli.insertInterests(interests, "faculty", 1);
         // cli.insertInterests(interests2, "faculty", 2);
-        // cli.insertInterests(interests, "student", 1);
+        // cli.insertInterests(interests, "faculty", 3);
+        // cli.insertInterests(interests2, "student", 1);
+        // cli.insertInterests(interests, "student", 2);
+
+
         // String[] results = cli.getInterest(1, "faculty");
         // for (String result : results) {
         //     System.out.println(result);
         // }
-        // Object[] bi = cli.getBasicInformation("professor", "password", "faculty");
-        // for (Object b : bi) {
-        //     System.out.println(b + "__");
-        // }
-        // cli.deleteAbstract(2, 1);
-        cli.studentSearchAbstract("ubuntu");
+        Object[] bi = cli.getBasicInformation("weisusernam", "password", "faculty");
+        for (Object b : bi) {
+            System.out.println(b + "__");
+        }
         
+        // String[][] ssa = cli.facultySearchStudents("sql");
+        // System.out.println(Arrays.deepToString(ssa));
+        // System.out.println(ssa[0][1]);
+        // String[][] ssf = cli.studentSearchAbstract("java");
+        // for (String[] a : ssf) {
+        //     System.out.println(Arrays.toString(a));
+        // }
+        // cli.facultySearchStudents("Ubuntu");
     }
 }
