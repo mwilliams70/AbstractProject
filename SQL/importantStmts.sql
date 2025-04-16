@@ -21,3 +21,14 @@ SELECT * FROM account
     WHERE facultyID IS NOT NULL
     OR studentID IS NOT NULL
     OR publicUserID IS NOT NULL;
+
+SELECT a.title, a.author, a.content, GROUP_CONCAT(f.email SEPARATOR ' | ') AS Emails,
+    GROUP_CONCAT(CONCAT("Bldg: ", f.buildingName," Office: ", f.officeNum) SEPARATOR ' | ') AS "Building and Offices"
+    FROM abstract a
+    JOIN facultyabstract USING (abstractID) 
+    JOIN faculty f USING (facultyID)
+    JOIN facultyinterest USING (facultyID)
+    JOIN interest USING (interestID)
+    WHERE interest.content = "ansible"
+    GROUP BY a.title, a.author, a.content;
+    

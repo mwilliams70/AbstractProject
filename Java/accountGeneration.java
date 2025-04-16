@@ -376,6 +376,10 @@ public class accountGeneration {
         }
     }
 
+    public void searchAbstract(String interest){
+        
+    }
+
     public static void main(String[] args) {
         accountGeneration cli = new accountGeneration();
         cli.connect("abstract_project", "root", "student");
@@ -389,7 +393,7 @@ public class accountGeneration {
         // cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
         // cli.createPublicUserAccount("public", "user", "Library", "3151234567");
         // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 1);
-        // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 2);
+        cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 2);
         // cli.insertInterests(interests, "faculty", 1);
         // cli.insertInterests(interests2, "faculty", 2);
         // cli.insertInterests(interests, "student", 1);
@@ -401,7 +405,7 @@ public class accountGeneration {
         for (Object b : bi) {
             System.out.println(b + "__");
         }
-        cli.deleteAbstract(2, 1);
+        // cli.deleteAbstract(2, 1);
         
     }
 }

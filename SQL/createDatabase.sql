@@ -124,3 +124,26 @@ INSERT INTO college VALUES(8, "National Technical Institute for the Deaf");
 INSERT INTO college VALUES(9, "College of Science");
 INSERT INTO college VALUES(10, "Golisano Institute for Sustainability");
 INSERT INTO college VALUES(11, "School of Individualized Study");
+
+
+DROP PROCEDURE IF EXISTS `search_abstract_student`;
+
+DELIMITER $$
+CREATE PROCEDURE search_abstract_student(
+    IN input_interest VARCHAR(50)
+)
+    BEGIN
+        SELECT a.title, a.author, a.content, GROUP_CONCAT(f.email SEPARATOR ' | ') AS Emails,
+            GROUP_CONCAT(CONCAT("Bldg: ", f.buildingName," Office: ", f.officeNum) SEPARATOR ' | ') AS "Building and Offices"
+            FROM abstract a
+            JOIN facultyabstract USING (abstractID) 
+            JOIN faculty f USING (facultyID)
+            JOIN facultyinterest USING (facultyID)
+            JOIN interest USING (interestID)
+            WHERE interest.content = input_interest
+            GROUP BY a.title, a.author, a.content;
+    END
+$$ 
+DELIMITER ;
+
+CALL search_abstract_student("ansible");
