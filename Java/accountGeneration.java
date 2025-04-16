@@ -1,5 +1,6 @@
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -377,7 +378,24 @@ public class accountGeneration {
     }
 
     public void searchAbstract(String interest){
-        
+        try {
+            String query = "{CALL search_abstract_student(?)}";
+            CallableStatement stmt = conn.prepareCall(query);
+            stmt.setString(1, interest);
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()){
+                System.out.println("No Abstracts Found");
+            }
+            while (rs.next()) {
+                System.out.println(rs.getString(1));
+                System.out.println(rs.getString(2));
+                System.out.println(rs.getString(3));
+                System.out.println(rs.getString(4));
+                System.out.println(rs.getString(5));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
@@ -393,7 +411,7 @@ public class accountGeneration {
         // cli.createStudentAccount("msw7476", "studentpassword", "Michael", "Williams", "msw7476@g.rit.edu", 3, "CIT");
         // cli.createPublicUserAccount("public", "user", "Library", "3151234567");
         // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 1);
-        cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 2);
+        // cli.insertFacultyAbstract("My Abstract", "Jim Habermas, Garret Aroraci", "This is the content of my abstract", 2);
         // cli.insertInterests(interests, "faculty", 1);
         // cli.insertInterests(interests2, "faculty", 2);
         // cli.insertInterests(interests, "student", 1);
@@ -401,11 +419,12 @@ public class accountGeneration {
         // for (String result : results) {
         //     System.out.println(result);
         // }
-        Object[] bi = cli.getBasicInformation("professor", "password", "faculty");
-        for (Object b : bi) {
-            System.out.println(b + "__");
-        }
+        // Object[] bi = cli.getBasicInformation("professor", "password", "faculty");
+        // for (Object b : bi) {
+        //     System.out.println(b + "__");
+        // }
         // cli.deleteAbstract(2, 1);
+        cli.searchAbstract("ubuntu");
         
     }
 }
