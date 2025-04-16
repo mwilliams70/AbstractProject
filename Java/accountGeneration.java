@@ -470,7 +470,7 @@ public class accountGeneration {
         // for (String result : results) {
         //     System.out.println(result);
         // }
-        Object[] bi = cli.getBasicInformation("weisusernam", "password", "faculty");
+        Object[] bi = cli.getBasicInformation("weisusernam", "password", "faculty"); //intentionally wrong to test make sure it prints no results found
         for (Object b : bi) {
             System.out.println(b + "__");
         }
