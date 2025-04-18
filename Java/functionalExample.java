@@ -43,6 +43,12 @@ public class functionalExample {
             System.out.println("\tInterest: " + result);
         }
         
+        System.out.println("\nColleges in Database: ");
+        String[] collegeIDS = db.getCollegeIDs();
+        for (String college : collegeIDS) {
+            System.out.println("\t" + college);
+        }
+
         // prints out all basic info related to chosen user, in this case faculty member with the username: "username" and password: "password"
         System.out.println("\nBasic Information of a faculty member:");
         Object[] basicInfo = db.getBasicInformation("username", "password", "faculty");
@@ -57,6 +63,7 @@ public class functionalExample {
             System.out.println("\t" + Arrays.toString(student));
         }
 
+        
         System.out.println("\nStudent information of a student interested in Calculus");
         String[][] searchForOneStudent = db.facultySearchStudents("Calculus");
         for (String[] student : searchForOneStudent) {
