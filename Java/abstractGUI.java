@@ -437,7 +437,7 @@ public class abstractGUI {
          JButton searchAbstracts = new JButton("Search Faculty by Abstracts");
          searchAbstracts.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
-               String topic = JOptionPane.showInputDialog(null, "Enter an abstract to search for:", "Search Abstracts", JOptionPane.QUESTION_MESSAGE);
+               String topic = JOptionPane.showInputDialog(null, "Enter your interests to search for matching Abstracts:", "Search Abstracts", JOptionPane.QUESTION_MESSAGE);
                
                if (topic != null && !topic.trim().isEmpty()) {
                   String[][] abstracts = abstractDB.studentSearchAbstract(topic.trim().toLowerCase());
