@@ -17,6 +17,7 @@ public class accountGeneration {
     private final static String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static String PATH = "jdbc:mysql://localhost/";
 
+    // connects to the abstract_project database
     public boolean connect(String db, String un, String pass) {
         String DATABASE = PATH + db;
         try {
@@ -48,6 +49,7 @@ public class accountGeneration {
         return "SELECT MAX(" + role + "ID) FROM " + role;
     }
 
+    // Returns all college ID's of colleges students/faculty can be associated with
     public String[] getCollegeIDs() {
         List<String> results = new ArrayList<>();
         try {
@@ -56,7 +58,7 @@ public class accountGeneration {
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                results.add("[" + rs.getInt(1) + "] " + rs.getString(2));
+                results.add("[" + rs.getInt(1) + "] " + rs.getString(2)); // stores an array of college ID's in the format of "[[[1] Golisano], [[2] Engineering], etc.]"
             }
             return results.toArray(new String[0]);
         } catch (SQLException e) {
@@ -65,8 +67,15 @@ public class accountGeneration {
         }
     }
 
+    /**
+    * Creates an account for the chosen user type (student, faculty, publicUser)
+    * Reused in:
+    *  createFacultyAccount  
+    *  createStudentAccount
+    *  createPublicUserAccount
+    */
     public void insertAccount(String table, String un, String pswd, int id) {
-        String insertAccount = "INSERT INTO account (username, password, " + table + "ID) VALUES(?, ?, ?)";
+        String insertAccount = "INSERT INTO account (username, password, " + table + "ID) VALUES(?, ?, ?)"; // will insert into the account table based on table type, (username, password, facultyID)
         try {
             PreparedStatement ia = conn.prepareStatement(insertAccount);
             ia.setString(1, un);
@@ -78,17 +87,8 @@ public class accountGeneration {
         }   
     }
 
-    public void insertCollegeBuilding(int collegeID, String buildingName) {
-        String sql = "INSERT INTO building (buildingName, collegeID) VALUES (?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, buildingName);
-            stmt.setInt(2, collegeID);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
+    // Creates a Faculty account using the faculty's created username and password, their first and last name, email, office number,
+    // what college's they belong to, and what building their office is in
     public void createFacultyAccount(String un, String pswd, String firstName, String lastName, String email, int officeNum, String[] collegeIDs, String buildingName) {
         String insertFaculty = "INSERT INTO faculty VALUES (NULL, ?, ?, ?, ?, ?)";
         String getID = getMostRecentID("faculty");
@@ -123,6 +123,9 @@ public class accountGeneration {
         }
     }
 
+
+    // Creates a Student account using the user's created username and password, their first and last name, their email, what college they belong to
+    // and their major
     public void createStudentAccount(String un, String pswd, String firstName, String lastName, String email, int collegeID, String major) {
         String insertStudent = "INSERT INTO student VALUES (NULL, ?, ?, ?)";
         String getID = getMostRecentID("student");
@@ -147,6 +150,7 @@ public class accountGeneration {
         }               
     }
 
+    // Creates a PublicUser account using a username, password, where the publicuser is (ex: Library), and their contact info
     public void createPublicUserAccount(String un, String pswd, String orgName, String contactInfo) {
         String insertPublicUser = "INSERT INTO publicuser VALUES (NULL, ?, ?)";
         String getID = getMostRecentID("publicUser");
@@ -165,6 +169,7 @@ public class accountGeneration {
         }
     }
 
+    // encrypts the user's password
     public static String encrypt(String secret){//Endcypt password
         String sha1 = "";
         String value = new String(secret);
@@ -179,6 +184,7 @@ public class accountGeneration {
    	    return sha1;
     }
 
+    // Creates an abstract for a faculty member
     public void insertFacultyAbstract(String title, String authors, String content, int facultyID) {
         try {
             // checks if the abstract already exists so if a faculty member creates an account
@@ -218,6 +224,7 @@ public class accountGeneration {
         }
     }
 
+    // inserts/modifys a user's interests based on their role (faculty, student, publicuser)
     public void insertInterests(String[] interests, String role, int id) {
         try {
 
@@ -262,6 +269,7 @@ public class accountGeneration {
         } 
     }
 
+    // gets the three interests a user is associated with
     public String[] getInterest(int id, String role) {
         List<String> results = new ArrayList<>();
         try {
@@ -283,6 +291,7 @@ public class accountGeneration {
         }
     }
     
+    // logs a user in if their username and password matches their account based on what role they have
     public boolean loggedIn(String username, String password, String role) {
         password = encrypt(password);
         try {
@@ -303,6 +312,9 @@ public class accountGeneration {
         }
     }
 
+    // returns information about the user
+    // for a student, their name, email, major, etc. is stored in an array
+    // for a faculty, their building and office number along with name, etc. is stored in an array
     public Object[] getBasicInformation(String username, String password, String role) {
         password = encrypt(password);
         List<String> accountResults = new ArrayList<>();
@@ -369,6 +381,8 @@ public class accountGeneration {
         }
     }
 
+    // allows a faculty to delete an abstract from being associated with them while keeping the abstract
+    // in the table if it is authored by someone else
     public void deleteAbstract(int facultyID, int abstractID) {
         try{
             String sql = "DELETE FROM facultyabstract WHERE facultyID=? AND abstractID=?";
@@ -381,6 +395,10 @@ public class accountGeneration {
         }
     }
 
+    // allows a student to search for an abstract based off of their interest
+    // stored in an array of arrays because if there is multiple abstracts 
+    // that match the interest, they will have different values that will need to 
+    // be accessed
     public String[][] studentSearchAbstract(String interest){
         List<String[]> searchResults = new ArrayList<>();
 
@@ -412,6 +430,9 @@ public class accountGeneration {
         }
     }
 
+    // allows faculty to search for student information based on if they share the
+    // provided interest
+    // also stored in an array of arrays if there is multiple students
     public String[][] facultySearchStudents(String interest) {
         List<String[]> searchResults = new ArrayList<>();
         
