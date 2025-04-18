@@ -447,9 +447,9 @@ public class accountGeneration {
         String[] interests = new String[] {"Python", "Java", "SQL"};
         String[] interests2 = new String[] {"Java", "Systems Administration", "Kerberos", "C++"};
        
-        // +-------------------------------------------------------------------------------------------+
-        // | UNCOMMENT ALL OF THE cli.* AND RUN WHEN DATABASE IS SOURCED, IT WILL POPULATE THE DATABASE|
-        // +-------------------------------------------------------------------------------------------+
+        // +--------------------------------------------------------------------------------------------+
+        // | UNCOMMENT ALL OF THE cli.* AND RUN WHEN DATABASE IS SOURCED, IT WILL POPULATE THE DATABASE |
+        // +--------------------------------------------------------------------------------------------+
 
         // cli.createFacultyAccount("weisusername", "password", "Johnathon", "Weismann", "jweissman@g.rit.edu", 5432, arr, "Golisano Hall");
         // cli.createFacultyAccount("jhabermas", "password", "Jim", "Habermas", "jha@rit.edu", 1234, arr, "Golisano Hall");
