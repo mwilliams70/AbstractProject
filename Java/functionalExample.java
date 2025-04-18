@@ -70,7 +70,7 @@ public class functionalExample {
             System.out.println("\t" + Arrays.toString(student));
         }
 
-        System.out.println("\nStudent information of a student interested in Python");
+        System.out.println("\nFaculty information for a student interested in Python");
         String[][] studentSearchAbstract = db.studentSearchAbstract("python");
         for (String[] abst : studentSearchAbstract) {
             System.out.println("\t" + Arrays.toString(abst));
