@@ -1,0 +1,105 @@
+Author: Michael Williams
+
+1. SOURCING DATABASE 
+    a. use 'abstractProject.sql' in the mysql terminal when sourcing to create the database
+    
+    b. 'abstractProject.sql' will create the database 'abstract_project' and its associated tables with keys
+    
+    c. The script will populate the database with values important to viewing required data such as:
+        i.   faculty, student, and public users
+        ii.  faculty abstracts 
+        iii. faculty, student, and publicUser interests 
+        iv.  RIT colleges
+
+    d. Two stored procedures are also created alongside the database creation
+        i.  search_abstract_student which allows a student to search for abstracts that are associated with
+            their chosen interest
+            
+        ii. faculty_search_students allows a faculty to search for students with similar interests to what
+            they need for the faculty member's research
+
+2. Functions to be used in the GUI application, found in databaseFunctions.java
+    a. connect(String db, String un, String pass)
+        i. the initial connecting point for the database 
+    
+    b. getMostRecentID(String role)
+        i. returns all college ID's of colleges students/faculty can be associated with
+
+    c. insertAccount(String table, String un, String pswd, int id)
+        i. Creates an account for the chosen user type (student, faculty, publicUser)
+           Reused in: createFacultyAccount, createStudentAccount, createPublicUserAccount
+
+    d. createFacultyAccount(String un, String pswd, String firstName, String lastName, String email, int officeNum, String[] collegeIDs, String buildingName)
+        i. creates a faculty account based on the required information to be a faculty member:
+            1. username
+            2. password 
+            3. first name
+            4. last name 
+            5. email
+            6. office number 
+            7. what colleges they are associated with 
+            8. building their office is in 
+    
+    e. createStudentAccount(String un, String pswd, String firstName, String lastName, String email, int collegeID, String major)
+        i. creates a student account based on the required information to be a student:
+            1. username
+            2. password
+            3. first name 
+            4. last name 
+            5. email 
+            6. the id of the college their major is in 
+            7. major 
+    
+    f. createPublicUserAccount(String un, String pswd, String orgName, String contactInfo)
+        i. creates a publicUser account based on the required information to be a publicUser:
+            1. username 
+            2. password 
+            3. where they are accessing the account from (ex. Library)
+            4. contact information (email, phone number, etc.)
+    
+    g. encrypt(String secret)
+        i. encrypts the user's password on account creation and when logging in 
+
+    h. insertFacultyAbstract(String title, String authors, String content, int facultyID)
+        i. inserts a faculty members abstract and links their facultyID to the newly created abstractID 
+
+    i. insertInterests(String[] interests, String role, int id) 
+        i. allows a user to insert their new interests or modify their old ones and links to their userID 
+
+    j. getInterest(int id, String role)
+        i. stores the three interests that can be stored to an user's account 
+    
+    k. loggedIn(String username, String password, String role)
+        i. returns a boolean value to confirm that the correct username and password is used when a user is 
+           logging into their account 
+    
+    l. getBasicInformation(String username, String password, String role)
+        i. Stores all relevant information of a user based on their role of faculty, student, or publicUser 
+    
+    m. deleteAbstract(int facultyID, int abstractID)
+        i. Deletes the association of an abstract from the faculty member deleting it from their account 
+    
+    n. studentSearchAbstract(String interest)
+        i. allows a student to search for an abstract based off of their interest 
+           stored in an array of arrays so that if there are multiple results, 
+           those records are stored separetly
+    
+    o. facultySearchStudents(String interest)
+        i. allows faculty to search for student information based on if they share the 
+           provided interest. It is stored in an array of arrays if there is multiple students
+
+3. Viewing Data
+    a. Running the 'main' method found in 'functionalExample.java' will provide an output of some test data showing:
+        i.   a faculty members interests
+
+        ii.  what colleges are currently in the database
+
+        iii. the basic information of a faculty member (facultyID, first name, last name, email, office number, and building)
+
+        iv.  Any students who are interested in python 
+                1. this would be used for when a faculty member is trying to find a student with a specific interest 
+
+        v.   Any students who are interested in Calculus
+                1. this would be used for when a faculty member is trying to find a student with a specific interest 
+
+        vi.  Any faculties abstracts that are associated with an interest in Python
