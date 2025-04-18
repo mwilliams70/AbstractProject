@@ -58,7 +58,7 @@ public class abstractGUI {
                     studentGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     
                     JPanel studentApp = new JPanel();
-                    studentApp.setLayout(new GridLayout(2, 0));
+                    studentApp.setLayout(new GridLayout(3, 0));
                     JButton interests = new JButton("View or Change My Interests");
                     interests.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent ae) {
@@ -68,6 +68,7 @@ public class abstractGUI {
 
                     displayUserInformation("student", studentApp);
                     studentApp.add(interests);
+                    studentApp.add(searchAbstractsButton());
                     studentGUI.add(studentApp);
                     studentGUI.setVisible(true);
                 }
@@ -423,6 +424,35 @@ public class abstractGUI {
         });
                     
          return searchStudents;
+    }
+    
+    private JButton searchAbstractsButton(){
+         JButton searchAbstracts = new JButton("Search Faculty by Abstracts");
+         searchAbstracts.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ae) {
+               String topic = JOptionPane.showInputDialog(null, "Enter an abstract to search for:", "Search Abstracts", JOptionPane.QUESTION_MESSAGE);
+               
+               if (topic != null && !topic.trim().isEmpty()) {
+                  String[][] abstracts = abstractDB.studentSearchAbstract(topic.trim().toLowerCase());
+                  
+                  if (abstracts.length >0){
+                     StringBuilder output = new StringBuilder("Matching Abstracts:\n\n");
+                     for (String[] abs : abstracts) {
+                        output.append("Title: ").append(abs[0]).append("\n");
+                        output.append("Authors: ").append(abs[1]).append("\\n");
+                        output.append("Content: ").append(abs[2]).append("\n");
+                        output.append("--------------------------\n");
+                     }
+                     JOptionPane.showMessageDialog(null, output.toString(), "Abstract Results", JOptionPane.INFORMATION_MESSAGE);
+                     
+                  } else {
+                     JOptionPane.showMessageDialog(null, "No abstracts found for: " + topic, "No Results", JOptionPane.WARNING_MESSAGE);
+                  }
+               }
+            }
+         });
+         
+         return searchAbstracts;
     }
     
     public static void main(String[] args) {
