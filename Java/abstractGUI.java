@@ -107,7 +107,7 @@ public class abstractGUI {
                     facultyGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
                     JPanel facultyApp = new JPanel();
-                    facultyApp.setLayout(new GridLayout(3, 0));
+                    facultyApp.setLayout(new BoxLayout(facultyApp, BoxLayout.Y_AXIS));
                     JButton interests = new JButton("View or Change My Interests");
                     interests.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent ae) {
@@ -116,7 +116,11 @@ public class abstractGUI {
                     });
                     displayUserInformation("faculty", facultyApp);
                     facultyApp.add(interests);
+                    facultyApp.add(Box.createVerticalStrut(10));
                     facultyApp.add(searchStudentsButton());
+                    facultyApp.add(Box.createVerticalStrut(10));
+                    facultyApp.add(addAbstractButton());
+                    facultyApp.add(Box.createVerticalStrut(10));
                     facultyGUI.add(facultyApp);
                     facultyGUI.setVisible(true);
                 }
@@ -398,6 +402,8 @@ public class abstractGUI {
         }
     }
     
+    
+    // Allows faculty to search for students by interests
     private JButton searchStudentsButton(){
          JButton searchStudents = new JButton("Search students by interest");
          searchStudents.addActionListener(new ActionListener(){
@@ -426,6 +432,7 @@ public class abstractGUI {
          return searchStudents;
     }
     
+    // Allows students to search for faculty via Abstracts
     private JButton searchAbstractsButton(){
          JButton searchAbstracts = new JButton("Search Faculty by Abstracts");
          searchAbstracts.addActionListener(new ActionListener(){
@@ -454,6 +461,57 @@ public class abstractGUI {
          
          return searchAbstracts;
     }
+    
+    
+    // Allows Faculty to add abstracts
+    private JButton addAbstractButton() {
+         JButton addAbstract = new JButton("Add New Abstract");
+         addAbstract.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+               JPanel form = new JPanel();
+               form.setLayout(new BoxLayout(form, BoxLayout.Y_AXIS));
+
+               JLabel titleLabel = new JLabel("Title:");
+               JTextField titleField = new JTextField();
+
+               JLabel authorsLabel = new JLabel("Authors:");
+               JTextField authorsField = new JTextField(userInfo[1] + " " + userInfo[2]); // Default to logged-in faculty name
+
+               JLabel contentLabel = new JLabel("Content:");
+               JTextArea contentArea = new JTextArea(5, 20);
+               contentArea.setLineWrap(true);
+               contentArea.setWrapStyleWord(true);
+               JScrollPane contentScroll = new JScrollPane(contentArea);
+
+               form.add(titleLabel);
+               form.add(titleField);
+               form.add(Box.createVerticalStrut(10));
+               form.add(authorsLabel);
+               form.add(authorsField);
+               form.add(Box.createVerticalStrut(10));
+               form.add(contentLabel);
+               form.add(contentScroll);
+
+               int result = JOptionPane.showConfirmDialog(null, form, "Add Abstract", JOptionPane.OK_CANCEL_OPTION);
+   
+               if (result == JOptionPane.OK_OPTION) {
+                   String title = titleField.getText().trim();
+                   String authors = authorsField.getText().trim();
+                   String content = contentArea.getText().trim();
+   
+                   if (!title.isEmpty() && !authors.isEmpty() && !content.isEmpty()) {
+                       int facultyID = Integer.parseInt(userInfo[0].toString());
+                       abstractDB.insertFacultyAbstract(title, authors, content, facultyID);
+                       JOptionPane.showMessageDialog(null, "Abstract added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                   } else {
+                       JOptionPane.showMessageDialog(null, "All fields must be filled out.", "Error", JOptionPane.ERROR_MESSAGE);
+                   }
+               }
+        }
+    });
+    return addAbstract;
+}
+
     
     public static void main(String[] args) {
         new abstractGUI();

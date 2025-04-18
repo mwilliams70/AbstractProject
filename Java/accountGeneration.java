@@ -38,6 +38,7 @@ public class accountGeneration {
         }
         catch (SQLException e) {
             System.out.println("No DB Connected");
+            e.printStackTrace();
             return false;
         }
     }
