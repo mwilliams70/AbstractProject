@@ -1,5 +1,7 @@
 DROP DATABASE IF EXISTS abstract_project;
 
+CREATE DATABASE abstract_project;
+
 USE `abstract_project`;
 
 -- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
