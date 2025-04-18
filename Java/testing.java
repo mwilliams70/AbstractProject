@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class testing {
     public static void main(String[] args) {
-        accountGeneration ag = new accountGeneration();
+        databaseFunctions ag = new databaseFunctions();
         Scanner sc = new Scanner(System.in);
         ag.connect("abstract_project", "root", "student");
 

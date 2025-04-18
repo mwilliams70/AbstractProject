@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class accountGeneration {
+public class databaseFunctions {
     public static Connection conn;
     private final static String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static String PATH = "jdbc:mysql://localhost/";
@@ -461,7 +461,7 @@ public class accountGeneration {
     }
 
     public static void main(String[] args) {
-        accountGeneration cli = new accountGeneration();
+        databaseFunctions cli = new databaseFunctions();
         cli.connect("abstract_project", "root", "student");
 
         String[] arr= new String[] {"2", "3"};

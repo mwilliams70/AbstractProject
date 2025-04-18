@@ -9,10 +9,10 @@ public class abstractGUI {
     public String role;
     public Object[] userInfo;
     private JFrame gui;
-    public accountGeneration abstractDB;
+    public databaseFunctions abstractDB;
 
     public abstractGUI() {
-        abstractDB = new accountGeneration();
+        abstractDB = new databaseFunctions();
         abstractDB.connect("abstract_project", "root", "student");
         
         gui = new JFrame("Abstract Project");
