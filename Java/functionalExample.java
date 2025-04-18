@@ -60,20 +60,27 @@ public class functionalExample {
         System.out.println("\nResults when searching for students interested in python: ");
         String[][] searchForStudents = db.facultySearchStudents("python");
         for (String[] student : searchForStudents) {
-            System.out.println("\t" + Arrays.toString(student));
+            System.out.println("\tName: " + student[0]);
+            System.out.println("\teMail: " + student[1] + "\n\n");
         }
 
         
         System.out.println("\nStudent information of a student interested in Calculus");
         String[][] searchForOneStudent = db.facultySearchStudents("Calculus");
         for (String[] student : searchForOneStudent) {
-            System.out.println("\t" + Arrays.toString(student));
+            System.out.println("\tName: " + student[0]);
+            System.out.println("\teMail: " + student[1] + "\n");
         }
 
         System.out.println("\nFaculty information for a student interested in Python");
         String[][] studentSearchAbstract = db.studentSearchAbstract("python");
         for (String[] abst : studentSearchAbstract) {
-            System.out.println("\t" + Arrays.toString(abst));
+            System.out.println("\tTitle: " + abst[0]);
+            System.out.println("\tAuthor(s): " + abst[1]);
+            System.out.println("\tContent: " + abst[2]);
+            System.out.println("\tEmail(s): " + abst[3]);
+            System.out.println("\tBuilding(s) and Office(s): " + abst[4] + "\n\n");
+            
         }
 
     }
