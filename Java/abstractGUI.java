@@ -14,7 +14,7 @@ public class abstractGUI {
     public abstractGUI() {
         abstractDB = new accountGeneration();
         abstractDB.connect("abstract_project", "root", "student");
-
+        
         gui = new JFrame("Abstract Project");
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setSize(800, 600);
@@ -106,7 +106,7 @@ public class abstractGUI {
                     facultyGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
                     JPanel facultyApp = new JPanel();
-                    facultyApp.setLayout(new GridLayout(2, 0));
+                    facultyApp.setLayout(new GridLayout(3, 0));
                     JButton interests = new JButton("View or Change My Interests");
                     interests.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent ae) {
@@ -115,6 +115,7 @@ public class abstractGUI {
                     });
                     displayUserInformation("faculty", facultyApp);
                     facultyApp.add(interests);
+                    facultyApp.add(searchStudentsButton());
                     facultyGUI.add(facultyApp);
                     facultyGUI.setVisible(true);
                 }
@@ -395,6 +396,35 @@ public class abstractGUI {
             panel.add(facultyLabel);
         }
     }
+    
+    private JButton searchStudentsButton(){
+         JButton searchStudents = new JButton("Search students by interest");
+         searchStudents.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+               String topic = JOptionPane.showInputDialog(null, "Enter an interest to search for:", "Find Students", JOptionPane.QUESTION_MESSAGE);
+                           
+               if (topic !=null &&!topic.trim().isEmpty()){
+                  String[][] studentResults = abstractDB.facultySearchStudents(topic.trim().toLowerCase());
+                              
+                  if (studentResults.length > 0) {
+                     StringBuilder output = new StringBuilder("Matching Students:\n\n");
+                     for (String[] student : studentResults){
+                        output.append("Name: ").append(student[0]).append("\n");
+                        output.append("Email: ").append(student[1]).append("\n");
+                        output.append("-----------------------------------------------\n");
+                        }
+                        JOptionPane.showMessageDialog(null, output.toString(), "Students Found", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No students found with entered interest: " + topic, "No Results", JOptionPane.WARNING_MESSAGE);
+                    }
+                 }
+                           
+               }
+        });
+                    
+         return searchStudents;
+    }
+    
     public static void main(String[] args) {
         new abstractGUI();
     }
