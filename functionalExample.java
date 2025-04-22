@@ -1,4 +1,8 @@
-
+// Author:    Michael Williams
+// Date:      April 18, 2025
+// Class:     ISTE330
+// Professor  Habermas
+// Project:   Abstract Project
 
 public class functionalExample {
     public static void main(String[] args) {

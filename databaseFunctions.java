@@ -1,4 +1,8 @@
-
+// Authors:       Michael Williams, Kyle Weishaar
+// Date:      April 18, 2025
+// Class:     ISTE330
+// Professor  Habermas
+// Project:   Abstract Project
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

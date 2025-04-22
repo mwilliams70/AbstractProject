@@ -1,12 +1,12 @@
 /*
-Names: Ben Arbelo, Manaswini Singh, 
-       Akshay Sreekumar, Kyle Weishaar,
-       Michael Williams
-
+Name: Michael Williams
+Date: April 18, 2025
 Class: ISTE330.01
 Abstract Project
 Professor Habermas
 */
+
+-- Initial SQL Script for creating the database (DOES NOT INCLUDE TEST DATA)
 
 DROP DATABASE IF EXISTS abstract_project;
 CREATE DATABASE abstract_project;

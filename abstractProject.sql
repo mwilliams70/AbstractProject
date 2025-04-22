@@ -1,4 +1,10 @@
-
+/*
+Name: Michael Williams
+Date: April 18, 2025
+Class: ISTE330.01
+Abstract Project
+Professor Habermas
+*/
 
 -- Main script for database creation
 -- Contains all test data and stored procedures

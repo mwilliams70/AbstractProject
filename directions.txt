@@ -1,4 +1,10 @@
-Author: Michael Williams
+
+
+--- Instructions for Abstract Project Part 2 ---
+    Overview: 
+        1. SOURCING DATABASE describes what happens when running the SQL script creating the database
+        2. FUNCTIONS provides a brief description of the functions being used in inserting/selecting data from database and where to locate these functions
+        3. VIEWING DATA provides what file to run to view test data that exists in the database and will display this test data
 
 1. SOURCING DATABASE 
     a. use 'abstractProject.sql' in the mysql terminal when sourcing to create the database
@@ -18,7 +24,7 @@ Author: Michael Williams
         ii. faculty_search_students allows a faculty to search for students with similar interests to what
             they need for the faculty member's research
 
-2. Functions to be used in the GUI application, found in databaseFunctions.java
+2. FUNCTIONS, found in databaseFunctions.java
     a. connect(String db, String un, String pass)
         i. the initial connecting point for the database 
     
@@ -88,7 +94,7 @@ Author: Michael Williams
         i. allows faculty to search for student information based on if they share the 
            provided interest. It is stored in an array of arrays if there is multiple students
 
-3. Viewing Data
+3. VIEWING DATA
     a. Running the 'main' method found in 'functionalExample.java' will provide an output of some test data showing:
         i.   a faculty members interests
 
