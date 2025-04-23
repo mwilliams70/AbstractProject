@@ -490,4 +490,33 @@ public class databaseFunctions {
             return searchResults.toArray(new String[0][0]);
         }
     }
+
+    public String[][] searchStudentsByName(String firstName, String lastName) {
+        List<String[]> searchResults = new ArrayList<>();
+
+        try {
+            String query = "SELECT CONCAT(firstName, ' ', lastName), email FROM student WHERE firstName LIKE ? OR lastName LIKE ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, firstName);
+            stmt.setString(2, lastName);
+            
+            ResultSet rs = stmt.executeQuery();
+            boolean hasRs = false;
+            while (rs.next()) {
+                String[] indiv = new String[2];
+                hasRs = true;
+                indiv[0] = rs.getString(1);
+                indiv[1] = rs.getString(2);
+                searchResults.add(indiv);
+            }
+            if (!hasRs) {
+                System.out.println("No students found");
+            } 
+            return searchResults.toArray(new String[0][]);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return searchResults.toArray(new String[0][0]);
+        }
+    }
 }

@@ -84,7 +84,7 @@ public class abstractGUI {
                 fl.setLayout(new GridLayout(2, 2));
                 JLabel un = new JLabel("Username: ");
                 JLabel pwd = new JLabel("Password");
-                JTextField unText = new JTextField("professor");
+                JTextField unText = new JTextField("username");
                 JTextField pwdText = new JTextField("password");
                 fl.add(un);
                 fl.add(unText);
@@ -123,6 +123,7 @@ public class abstractGUI {
                     facultyApp.add(addAbstractButton());
                     facultyApp.add(Box.createVerticalStrut(10));
                     facultyGUI.add(facultyApp);
+                    facultyGUI.add(searchStudentsByName());
                     facultyGUI.setVisible(true);
                 }
                 
@@ -537,7 +538,45 @@ public class abstractGUI {
     });
     return addAbstract;
 }
+    private JButton searchStudentsByName() {
+        JButton search = new JButton("Search Students By Name");
+        search.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                JPanel form = new JPanel();
+                form.setLayout(new BoxLayout(form, BoxLayout.Y_AXIS));
 
+                JLabel fName = new JLabel("First Name: ");
+                JTextField fNameField = new JTextField();
+
+                JLabel lName = new JLabel("Last Name: ");
+                JTextField lNameField = new JTextField();
+
+                form.add(fName);
+                form.add(fNameField);
+                form.add(Box.createHorizontalStrut(10));
+                form.add(lName);
+                form.add(lNameField);
+                form.add(Box.createHorizontalStrut(10));
+
+                JOptionPane.showMessageDialog(null, form, "Search For Student", JOptionPane.QUESTION_MESSAGE);
+
+                String[][] students = abstractDB.searchStudentsByName(fNameField.getText(), lNameField.getText());
+                if (students.length > 0) {
+                    StringBuilder output = new StringBuilder("Students Found: \n\n");
+                    for (String[] student : students) {
+                        output.append("Name: ").append(student[0]).append("\n");
+                        output.append("eMail: ").append(student[1]).append("\n");
+                        output.append("------------------------------\n");
+                    }
+                    JOptionPane.showMessageDialog(null, output.toString(), "Student Results", JOptionPane.INFORMATION_MESSAGE);
+                }else {
+                    JOptionPane.showMessageDialog(null, "No Students Found For: " + fNameField.getText() + " " + lNameField.getText(), "No Results Found", JOptionPane.WARNING_MESSAGE);
+
+                }
+            }
+        });
+        return search;
+    }
     
     public static void main(String[] args) {
         new abstractGUI();
