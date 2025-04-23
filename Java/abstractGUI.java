@@ -34,7 +34,7 @@ public class abstractGUI {
                 JLabel un = new JLabel("Username: ");
                 JLabel pwd = new JLabel("Password");
                 JTextField unText = new JTextField("msw7476");
-                JTextField pwdText = new JTextField("studentpassword");
+                JTextField pwdText = new JTextField("mypassword");
                 sl.add(un);
                 sl.add(unText);
                 sl.add(pwd);
@@ -69,6 +69,7 @@ public class abstractGUI {
                     displayUserInformation("student", studentApp);
                     studentApp.add(interests);
                     studentApp.add(searchAbstractsButton());
+                    studentApp.add(searchAbstractsByInfo());
                     studentGUI.add(studentApp);
                     studentGUI.setVisible(true);
                 }
@@ -135,8 +136,8 @@ public class abstractGUI {
                 pl.setLayout(new GridLayout(2, 2));
                 JLabel un = new JLabel("Username: ");
                 JLabel pwd = new JLabel("Password");
-                JTextField unText = new JTextField("msw7476");
-                JTextField pwdText = new JTextField("studentpassword");
+                JTextField unText = new JTextField("public");
+                JTextField pwdText = new JTextField("user");
                 pl.add(un);
                 pl.add(unText);
                 pl.add(pwd);
@@ -434,10 +435,10 @@ public class abstractGUI {
     
     // Allows students to search for faculty via Abstracts
     private JButton searchAbstractsButton(){
-         JButton searchAbstracts = new JButton("Search Faculty by Abstracts");
+         JButton searchAbstracts = new JButton("Search Abstract By Interest");
          searchAbstracts.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
-               String topic = JOptionPane.showInputDialog(null, "Enter your interests to search for matching Abstracts:", "Search Abstracts", JOptionPane.QUESTION_MESSAGE);
+               String topic = JOptionPane.showInputDialog(null, "Enter your interest to search for matching Abstracts:", "Search Abstracts", JOptionPane.QUESTION_MESSAGE);
                
                if (topic != null && !topic.trim().isEmpty()) {
                   String[][] abstracts = abstractDB.studentSearchAbstract(topic.trim().toLowerCase());
@@ -446,7 +447,7 @@ public class abstractGUI {
                      StringBuilder output = new StringBuilder("Matching Abstracts:\n\n");
                      for (String[] abs : abstracts) {
                         output.append("Title: ").append(abs[0]).append("\n");
-                        output.append("Authors: ").append(abs[1]).append("\\n");
+                        output.append("Authors: ").append(abs[1]).append("\n");
                         output.append("Content: ").append(abs[2]).append("\n");
                         output.append("--------------------------\n");
                      }
@@ -462,6 +463,31 @@ public class abstractGUI {
          return searchAbstracts;
     }
     
+    private JButton searchAbstractsByInfo() {
+        JButton search = new JButton("Search Abstract");
+        search.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                String line = JOptionPane.showInputDialog(null, "Enter a keyword about the abstract you are looking for (title, author, content of abstract, etc.)", "Search Abstracts", JOptionPane.QUESTION_MESSAGE);
+
+                if (line != null && !line.trim().isEmpty()) {
+                    String[][] abstracts = abstractDB.searchAbstractsTarget(line.trim());
+                    if (abstracts.length > 0) {
+                        StringBuilder output = new StringBuilder("Results Matching '" + line.trim() + "'' Found: \n\n");
+                        for (String[] abs : abstracts) {
+                            output.append("Title: ").append(abs[0]).append("\n");
+                            output.append("Authors: ").append(abs[1]).append("\n");
+                            output.append("Content: ").append(abs[2]).append("\n");
+                            output.append("--------------------------\n");
+                         }
+                         JOptionPane.showMessageDialog(null, output.toString(), "Abstract Results", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No abstracts found for: " + line, "No Results", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            }
+        });
+        return search;
+    }
     
     // Allows Faculty to add abstracts
     private JButton addAbstractButton() {

@@ -461,4 +461,33 @@ public class databaseFunctions {
         }
     }
 
+    public String[][] searchAbstractsTarget(String target) {
+        List<String[]> searchResults = new ArrayList<>();
+
+        try {
+            String query = "{CALL search_abstract_target(?)}";
+            CallableStatement stmt = conn.prepareCall(query);
+            stmt.setString(1, target);
+            ResultSet rs = stmt.executeQuery();
+            boolean hasRs = false;
+            while (rs.next()) {
+                String[] indivResults = new String[5];
+                hasRs = true;
+                indivResults[0] = rs.getString(1);
+                indivResults[1] = rs.getString(2);
+                indivResults[2] = rs.getString(3);
+                indivResults[3] = rs.getString(4);
+                indivResults[4] = rs.getString(5);
+                searchResults.add(indivResults);
+            }
+
+            if (!hasRs){
+                System.out.println("No Abstracts Found");
+            }
+            return searchResults.toArray(new String[0][]);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return searchResults.toArray(new String[0][0]);
+        }
+    }
 }
