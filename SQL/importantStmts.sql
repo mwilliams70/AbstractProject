@@ -36,3 +36,25 @@ SELECT CONCAT(s.firstName, ' ', s.lastName), s.email FROM student s
     JOIN studentinterest USING (studentID)
     JOIN interest i USING (interestID)
     WHERE i.content = "sql";
+
+
+DELIMITER $$
+CREATE PROCEDURE search_abstract_target(
+    IN input_target VARCHAR(50)
+)
+BEGIN
+    SELECT a.title, a.author, a.content, GROUP_CONCAT(DISTINCT f.email SEPARATOR ' | ') AS Emails,
+        GROUP_CONCAT(DISTINCT CONCAT("Bldg: ", f.buildingName," Office: ", f.officeNum) SEPARATOR ' | ') AS "Building and Offices"
+        FROM abstract a
+        JOIN facultyabstract USING (abstractID) 
+        JOIN faculty f USING (facultyID)
+        JOIN facultyinterest USING (facultyID)
+        JOIN interest USING (interestID)
+        WHERE a.content LIKE CONCAT("%", input_target, "%") OR 
+              a.title LIKE CONCAT("%", input_target, "%") OR 
+              a.author LIKE CONCAT("%", input_target, "%")
+        GROUP BY a.title, a.author, a.content;
+END
+$$
+
+DELIMITER ;
