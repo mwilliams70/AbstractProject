@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Arrays;
@@ -316,13 +318,52 @@ public class abstractGUI {
                 });
             }
         });
+        
+        Color ritOrange = new Color(255, 102, 0);
+        Font buttonFont = new Font("SansSerif", Font.BOLD, 20);
+        
+         
+        studentLogin.setBackground(ritOrange);
+        studentLogin.setForeground(Color.WHITE); 
+        studentLogin.setFont(buttonFont);
+        studentLogin.setBorder(new LineBorder(Color.BLACK, 2));
+
+
+        
+        facultyLogin.setBackground(ritOrange);
+        facultyLogin.setForeground(Color.WHITE);
+        facultyLogin.setFont(buttonFont);
+        facultyLogin.setBorder(new LineBorder(Color.BLACK, 2));
+
+
+        publicUserLogin.setBackground(ritOrange);
+        publicUserLogin.setForeground(Color.WHITE);
+        publicUserLogin.setFont(buttonFont);
+        publicUserLogin.setBorder(new LineBorder(Color.BLACK, 2));
+  
+        
+        createAccount.setBackground(ritOrange);
+        createAccount.setForeground(Color.WHITE);
+        createAccount.setFont(buttonFont);
+        createAccount.setBorder(new LineBorder(Color.BLACK, 2));
+ 
 
 
         app.add(studentLogin);
         app.add(facultyLogin);
         app.add(publicUserLogin);
         app.add(createAccount);
-        gui.add(app);
+
+        
+        ImageIcon icon = new ImageIcon("ritLogo.png");
+        JLabel imageLabel = new JLabel(icon);
+        
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(imageLabel, BorderLayout.WEST);
+        mainPanel.add(app, BorderLayout.CENTER); 
+        app.setBorder(BorderFactory.createEmptyBorder(50, 30, 50, 30));
+
+        gui.add(mainPanel);
         gui.setVisible(true); 
     }
 
