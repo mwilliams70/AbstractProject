@@ -62,6 +62,7 @@ public class abstractGUI {
                     JPanel studentApp = new JPanel();
                     studentApp.setLayout(new GridLayout(3, 0));
                     JButton interests = new JButton("View or Change My Interests");
+                    styleButton(interests);
                     interests.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent ae) {
                             modifyBtn("student");
@@ -112,6 +113,7 @@ public class abstractGUI {
                     JPanel facultyApp = new JPanel();
                     facultyApp.setLayout(new BoxLayout(facultyApp, BoxLayout.Y_AXIS));
                     JButton interests = new JButton("View or Change My Interests");
+                    styleButton(interests);
                     interests.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent ae) {
                             modifyBtn("faculty");
@@ -124,8 +126,8 @@ public class abstractGUI {
                     facultyApp.add(Box.createVerticalStrut(10));
                     facultyApp.add(addAbstractButton());
                     facultyApp.add(Box.createVerticalStrut(10));
+                    facultyApp.add(searchStudentsByName());
                     facultyGUI.add(facultyApp);
-                    facultyGUI.add(searchStudentsByName());
                     facultyGUI.setVisible(true);
                 }
                 
@@ -170,8 +172,11 @@ public class abstractGUI {
                 ca.setLayout(new GridLayout(4, 0));
                 JLabel areYou = new JLabel("What type of user are you: ");
                 JButton student = new JButton("Student");
+                styleButton(student);
                 JButton faculty = new JButton("Faculty");
+                styleButton(faculty);
                 JButton pub = new JButton("Public User");
+                styleButton(pub);
             
                 ca.add(areYou);
                 ca.add(student);
@@ -449,6 +454,7 @@ public class abstractGUI {
     // Allows faculty to search for students by interests
     private JButton searchStudentsButton(){
          JButton searchStudents = new JButton("Search students by interest");
+         styleButton(searchStudents);
          searchStudents.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae){
                String topic = JOptionPane.showInputDialog(null, "Enter an interest to search for:", "Find Students", JOptionPane.QUESTION_MESSAGE);
@@ -478,6 +484,7 @@ public class abstractGUI {
     // Allows students to search for faculty via Abstracts
     private JButton searchAbstractsButton(){
          JButton searchAbstracts = new JButton("Search Abstract By Interest");
+         styleButton(searchAbstracts);
          searchAbstracts.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                String topic = JOptionPane.showInputDialog(null, "Enter your interest to search for matching Abstracts:", "Search Abstracts", JOptionPane.QUESTION_MESSAGE);
@@ -507,6 +514,7 @@ public class abstractGUI {
     
     private JButton searchAbstractsByInfo() {
         JButton search = new JButton("Search Abstract");
+        styleButton(search);
         search.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 String line = JOptionPane.showInputDialog(null, "Enter a keyword about the abstract you are looking for (title, author, content of abstract, etc.)", "Search Abstracts", JOptionPane.QUESTION_MESSAGE);
@@ -534,6 +542,7 @@ public class abstractGUI {
     // Allows Faculty to add abstracts
     private JButton addAbstractButton() {
          JButton addAbstract = new JButton("Add New Abstract");
+         styleButton(addAbstract);
          addAbstract.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                JPanel form = new JPanel();
@@ -581,6 +590,7 @@ public class abstractGUI {
 }
     private JButton searchStudentsByName() {
         JButton search = new JButton("Search Students By Name");
+        styleButton(search);
         search.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 JPanel form = new JPanel();
@@ -618,6 +628,16 @@ public class abstractGUI {
         });
         return search;
     }
+    
+       private void styleButton(JButton button) {
+          Color ritOrange = new Color(255, 102, 0);
+          Font buttonFont = new Font("SansSerif", Font.BOLD, 20);
+          button.setBackground(ritOrange);
+          button.setForeground(Color.WHITE);
+          button.setFont(buttonFont);
+          button.setBorder(new LineBorder(Color.BLACK, 2));
+   }
+
     
     public static void main(String[] args) {
         new abstractGUI();
