@@ -120,13 +120,14 @@ public class abstractGUI {
                         }
                     });
                     displayUserInformation("faculty", facultyApp);
-                    facultyApp.add(interests);
                     facultyApp.add(Box.createVerticalStrut(10));
-                    facultyApp.add(searchStudentsButton());
+                    facultyApp.add(wrapButton(interests));
                     facultyApp.add(Box.createVerticalStrut(10));
-                    facultyApp.add(addAbstractButton());
+                    facultyApp.add(wrapButton(searchStudentsButton()));
                     facultyApp.add(Box.createVerticalStrut(10));
-                    facultyApp.add(searchStudentsByName());
+                    facultyApp.add(wrapButton(addAbstractButton()));
+                    facultyApp.add(Box.createVerticalStrut(10));
+                    facultyApp.add(wrapButton(searchStudentsByName()));
                     facultyGUI.add(facultyApp);
                     facultyGUI.setVisible(true);
                 }
@@ -636,7 +637,15 @@ public class abstractGUI {
           button.setForeground(Color.WHITE);
           button.setFont(buttonFont);
           button.setBorder(new LineBorder(Color.BLACK, 2));
-   }
+        }
+   
+       private JPanel wrapButton(JButton button) {
+          JPanel wrapper = new JPanel();
+          wrapper.setLayout(new FlowLayout(FlowLayout.CENTER));
+          button.setPreferredSize(new Dimension(300, 40)); 
+          wrapper.add(button);
+          return wrapper;
+        }
 
     
     public static void main(String[] args) {
