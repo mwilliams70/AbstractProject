@@ -171,16 +171,32 @@ public class abstractGUI {
                 pl.add(pwd);
                 pl.add(pwdText);
                 JOptionPane.showMessageDialog(null, pl, "Public User Login", JOptionPane.QUESTION_MESSAGE);
-
+        
                 String inputUn = unText.getText();
                 String inputPwd = pwdText.getText();
-
+        
                 loggedIn = abstractDB.loggedIn(inputUn, inputPwd, "publicUser");
                 if (loggedIn) {
                     userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "publicUser");
                     role="publicUser";
                     JOptionPane.showMessageDialog(null, "Logged In Successfully", "Logged In", JOptionPane.INFORMATION_MESSAGE);
                     gui.dispose();
+        
+                    // Setup Public User Dashboard
+                    JFrame publicGUI = new JFrame("Public User Dashboard");
+                    publicGUI.setSize(400, 300);
+                    publicGUI.setLocation(500, 100);
+                    publicGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+                    JPanel publicApp = new JPanel();
+                    publicApp.setLayout(new BoxLayout(publicApp, BoxLayout.Y_AXIS));
+        
+                    displayUserInformation("publicUser", publicApp);
+                    publicApp.add(Box.createVerticalStrut(10));
+                    publicApp.add(wrapButton(searchAbstractsByInfo()));
+        
+                    publicGUI.add(publicApp);
+                    publicGUI.setVisible(true);
                 }
                 System.out.println("userInfo: " + Arrays.toString(userInfo));
             }
@@ -488,12 +504,21 @@ public class abstractGUI {
                                             "<br><b>eMail: </b> " + email +
                                             "<br><b>Building: </b> " + building +
                                             "<br><b>Room Number: </b> " + room);
+        
                                             
             facultyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             JPanel labelPanel = new JPanel();
             labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
             labelPanel.add(facultyLabel);
             panel.add(labelPanel);
+        } else if (role.equals("publicUser")) {
+            id = userInfo[0].toString();
+            fullName = userInfo[1].toString(); // this is org name
+            email = userInfo[2].toString(); // contact info
+            JLabel publicLabel = new JLabel("<html><b>ID: </b>" + id +
+                                           "<br><b>Organization: </b> " + fullName +
+                                           "<br><b>Contact Info: </b> " + email + "</html>");
+            panel.add(publicLabel);
         }
     }
     
