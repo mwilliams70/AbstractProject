@@ -1,0 +1,192 @@
+
+
+--- Instructions for Abstract Project Part 2 ---
+    Overview: 
+        1. SOURCING DATABASE describes what happens when running the SQL script creating the database
+        2. FUNCTIONS provides a brief description of the functions being used in inserting/selecting data from database and where to locate these functions
+        3. VIEWING DATA provides what file to run to view test data that exists in the database and will display this test data
+
+1. SOURCING DATABASE 
+    a. use 'abstractProject.sql' in the mysql terminal when sourcing to create the database
+    
+    b. 'abstractProject.sql' will create the database 'abstract_project' and its associated tables with keys
+    
+    c. The script will populate the database with values important to viewing required data such as:
+        i.   faculty, student, and public users
+        ii.  faculty abstracts 
+        iii. faculty, student, and publicUser interests 
+        iv.  RIT colleges
+
+    d. Two stored procedures are also created alongside the database creation
+        i.  search_abstract_student which allows a student to search for abstracts that are associated with
+            their chosen interest
+            
+        ii. faculty_search_students allows a faculty to search for students with similar interests to what
+            they need for the faculty member's research
+
+2. FUNCTIONS, found in databaseFunctions.java
+    a. connect(String db, String un, String pass)
+        i. the initial connecting point for the database 
+    
+    b. getMostRecentID(String role)
+        i. returns all college ID's of colleges students/faculty can be associated with
+
+    c. insertAccount(String table, String un, String pswd, int id)
+        i. Creates an account for the chosen user type (student, faculty, publicUser)
+           Reused in: createFacultyAccount, createStudentAccount, createPublicUserAccount
+
+    d. createFacultyAccount(String un, String pswd, String firstName, String lastName, String email, int officeNum, String[] collegeIDs, String buildingName)
+        i. creates a faculty account based on the required information to be a faculty member:
+            1. username
+            2. password 
+            3. first name
+            4. last name 
+            5. email
+            6. office number 
+            7. what colleges they are associated with 
+            8. building their office is in 
+    
+    e. createStudentAccount(String un, String pswd, String firstName, String lastName, String email, int collegeID, String major)
+        i. creates a student account based on the required information to be a student:
+            1. username
+            2. password
+            3. first name 
+            4. last name 
+            5. email 
+            6. the id of the college their major is in 
+            7. major 
+    
+    f. createPublicUserAccount(String un, String pswd, String orgName, String contactInfo)
+        i. creates a publicUser account based on the required information to be a publicUser:
+            1. username 
+            2. password 
+            3. where they are accessing the account from (ex. Library)
+            4. contact information (email, phone number, etc.)
+    
+    g. encrypt(String secret)
+        i. encrypts the user's password on account creation and when logging in 
+
+    h. insertFacultyAbstract(String title, String authors, String content, int facultyID)
+        i. inserts a faculty members abstract and links their facultyID to the newly created abstractID 
+
+    i. insertInterests(String[] interests, String role, int id) 
+        i. allows a user to insert their new interests or modify their old ones and links to their userID 
+
+    j. getInterest(int id, String role)
+        i. stores the three interests that can be stored to an user's account 
+    
+    k. loggedIn(String username, String password, String role)
+        i. returns a boolean value to confirm that the correct username and password is used when a user is 
+           logging into their account 
+    
+    l. getBasicInformation(String username, String password, String role)
+        i. Stores all relevant information of a user based on their role of faculty, student, or publicUser 
+    
+    m. deleteAbstract(int facultyID, int abstractID)
+        i. Deletes the association of an abstract from the faculty member deleting it from their account 
+    
+    n. studentSearchAbstract(String interest)
+        i. allows a student to search for an abstract based off of their interest 
+           stored in an array of arrays so that if there are multiple results, 
+           those records are stored separetly
+    
+    o. facultySearchStudents(String interest)
+        i. allows faculty to search for student information based on if they share the 
+           provided interest. It is stored in an array of arrays if there is multiple students
+
+    p. searchAbstractsTarget(String target)
+        i. Allows any user to search for abstracts based on the authors, content, and title 
+           instead of just the interest 
+    
+    q. searchStudentsByName(String firstName, String lastName)
+        i. Allows faculty members to find information about a student 
+           when searching by their name 
+    
+
+3. VIEWING DATA
+    a. Running the 'main' method found in 'functionalExample.java' will provide an output of some test data showing:
+        i.   a faculty members interests
+
+        ii.  what colleges are currently in the database
+
+        iii. the basic information of a faculty member (facultyID, first name, last name, email, office number, and building)
+
+        iv.  Any students who are interested in python 
+                1. this would be used for when a faculty member is trying to find a student with a specific interest 
+
+        v.   Any students who are interested in Calculus
+                1. this would be used for when a faculty member is trying to find a student with a specific interest 
+
+        vi.  Any faculties abstracts that are associated with an interest in Python
+
+4. GUI 
+    a. when launching the gui select your role of student, faculty or public user 
+        i.   student login 
+             username: msw7476
+             password: mypassword 
+
+        ii.  faculty login 
+             username: username 
+             password: password 
+
+        iii. public user login 
+             username: public 
+             password: user 
+    
+    b. Student Usages 
+        i. 'View or Change My Interests' button 
+            1. allows a user to view their current interests and update them 
+        
+        ii. 'Search Abstract by Interest' 
+            1. allows a user to search for an abstract based on an interest and get faculty information 
+               related to that interest 
+
+        iii. 'Search Abstract'
+            1. allows a user to search for any abstract based on a keyword such as the 
+               title, content of the abstract, and authors 
+    
+    c. Faculty Usages
+        i. 'View or Change My Interests' button 
+            1. allows a user to view their current interests and update them 
+        
+        ii. 'Search students by interest'
+            1. allows a faculty member to search for student information based on an interest 
+        
+        iii. 'Search Students By Name'
+            1. allows a faculty member to search for student information based on first and last name
+
+        iv. 'Search Abstract by Interest' 
+            1. allows a user to search for an abstract based on an interest and get faculty information 
+               related to that interest 
+
+        v. 'Search Abstract'
+            1. allows a user to search for any abstract based on a keyword such as the 
+               title, content of the abstract, and authors 
+    
+    d. Public User Usages 
+        i. 'Search Abstract'
+            1. allows a user to search for any abstract based on a keyword such as the 
+               title, content of the abstract, and authors 
+
+        ii. 'Search Abstract By Interest'
+            1. allows a user to search for an abstract based on an interest and get faculty information 
+               related to that interest 
+
+    e. Create Account
+        i. After clicking create account, choose the type of user the account will be (student,
+           faculty, or public user)
+        
+        ii. Student Account Creation 
+            1. Enter Username, password, first and last name, email, what colleges the student  
+               is apart of, and their major 
+        
+        iii. Faculty Account Creation
+            1. Enter Username, password, first and last name, email, colleges the faculty is 
+                associated with, their office number and building the office is in 
+        
+        iv. Public User Account Creation 
+            1. Enter username, password, organization name, and contact information 
+
+        v. After creating an account, returning to the login page and choosing the correct role 
+            of the account will ask for its username and password and log the new user in
+        

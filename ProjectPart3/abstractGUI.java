@@ -1,3 +1,14 @@
+/*
+ * Authors: Manaswani Singh,
+ *          Weishaar, Kyle,
+ *          Williams, Michael
+ * ISTE330.01 Database Connectivity and Access
+ * Professor Habermas
+ * Abstract Project Part 3
+ * Date Complete: April 26, 2025
+ * 
+ */
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
