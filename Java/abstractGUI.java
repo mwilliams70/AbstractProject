@@ -176,6 +176,9 @@ public class abstractGUI {
                 String inputPwd = pwdText.getText();
         
                 loggedIn = abstractDB.loggedIn(inputUn, inputPwd, "publicUser");
+
+                // if publicUser is successfully logged in, buttons for them to search for 
+                // abstracts based on an interest or keyword are displayed
                 if (loggedIn) {
                     userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "publicUser");
                     role="publicUser";
@@ -194,6 +197,8 @@ public class abstractGUI {
                     displayUserInformation("publicUser", publicApp);
                     publicApp.add(Box.createVerticalStrut(10));
                     publicApp.add(wrapButton(searchAbstractsByInfo()));
+                    publicApp.add(Box.createVerticalStrut(10));
+                    publicApp.add(wrapButton(searchAbstractsButton()));
         
                     publicGUI.add(publicApp);
                     publicGUI.setVisible(true);
