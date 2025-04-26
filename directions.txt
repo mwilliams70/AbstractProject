@@ -94,6 +94,15 @@
         i. allows faculty to search for student information based on if they share the 
            provided interest. It is stored in an array of arrays if there is multiple students
 
+    p. searchAbstractsTarget(String target)
+        i. Allows any user to search for abstracts based on the authors, content, and title 
+           instead of just the interest 
+    
+    q. searchStudentsByName(String firstName, String lastName)
+        i. Allows faculty members to find information about a student 
+           when searching by their name 
+    
+
 3. VIEWING DATA
     a. Running the 'main' method found in 'functionalExample.java' will provide an output of some test data showing:
         i.   a faculty members interests
@@ -109,3 +118,75 @@
                 1. this would be used for when a faculty member is trying to find a student with a specific interest 
 
         vi.  Any faculties abstracts that are associated with an interest in Python
+
+4. GUI 
+    a. when launching the gui select your role of student, faculty or public user 
+        i.   student login 
+             username: msw7476
+             password: mypassword 
+
+        ii.  faculty login 
+             username: username 
+             password: password 
+
+        iii. public user login 
+             username: public 
+             password: user 
+    
+    b. Student Usages 
+        i. 'View or Change My Interests' button 
+            1. allows a user to view their current interests and update them 
+        
+        ii. 'Search Abstract by Interest' 
+            1. allows a user to search for an abstract based on an interest and get faculty information 
+               related to that interest 
+
+        iii. 'Search Abstract'
+            1. allows a user to search for any abstract based on a keyword such as the 
+               title, content of the abstract, and authors 
+    
+    c. Faculty Usages
+        i. 'View or Change My Interests' button 
+            1. allows a user to view their current interests and update them 
+        
+        ii. 'Search students by interest'
+            1. allows a faculty member to search for student information based on an interest 
+        
+        iii. 'Search Students By Name'
+            1. allows a faculty member to search for student information based on first and last name
+
+        iv. 'Search Abstract by Interest' 
+            1. allows a user to search for an abstract based on an interest and get faculty information 
+               related to that interest 
+
+        v. 'Search Abstract'
+            1. allows a user to search for any abstract based on a keyword such as the 
+               title, content of the abstract, and authors 
+    
+    d. Public User Usages 
+        i. 'Search Abstract'
+            1. allows a user to search for any abstract based on a keyword such as the 
+               title, content of the abstract, and authors 
+
+        ii. 'Search Abstract By Interest'
+            1. allows a user to search for an abstract based on an interest and get faculty information 
+               related to that interest 
+
+    e. Create Account
+        i. After clicking create account, choose the type of user the account will be (student,
+           faculty, or public user)
+        
+        ii. Student Account Creation 
+            1. Enter Username, password, first and last name, email, what colleges the student  
+               is apart of, and their major 
+        
+        iii. Faculty Account Creation
+            1. Enter Username, password, first and last name, email, colleges the faculty is 
+                associated with, their office number and building the office is in 
+        
+        iv. Public User Account Creation 
+            1. Enter username, password, organization name, and contact information 
+
+        v. After creating an account, returning to the login page and choosing the correct role 
+            of the account will ask for its username and password and log the new user in
+        

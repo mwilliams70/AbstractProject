@@ -146,9 +146,16 @@ public class abstractGUI {
                     facultyApp.add(Box.createVerticalStrut(10));
                     facultyApp.add(wrapButton(searchStudentsButton()));
                     facultyApp.add(Box.createVerticalStrut(10));
-                    facultyApp.add(wrapButton(addAbstractButton()));
-                    facultyApp.add(Box.createVerticalStrut(10));
                     facultyApp.add(wrapButton(searchStudentsByName()));
+                    facultyApp.add(Box.createVerticalStrut(10));
+                    facultyApp.add(wrapButton(addAbstractButton()));
+                    
+                    facultyApp.add(Box.createVerticalStrut(10));
+                    facultyApp.add(wrapButton(searchAbstractsButton()));
+                    facultyApp.add(Box.createVerticalStrut(10));
+                    facultyApp.add(wrapButton(searchAbstractsByInfo()));
+                    
+
                     facultyGUI.add(facultyApp);
                     facultyGUI.setVisible(true);
                 }
