@@ -60,7 +60,7 @@ public class abstractGUI {
                     studentGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     
                     JPanel studentApp = new JPanel();
-                    studentApp.setLayout(new GridLayout(3, 0));
+                    studentApp.setLayout(new BoxLayout(studentApp, BoxLayout.Y_AXIS));
                     JButton interests = new JButton("View or Change My Interests");
                     styleButton(interests);
                     interests.addActionListener(new ActionListener() {
@@ -70,9 +70,12 @@ public class abstractGUI {
                     });
 
                     displayUserInformation("student", studentApp);
-                    studentApp.add(interests);
-                    studentApp.add(searchAbstractsButton());
-                    studentApp.add(searchAbstractsByInfo());
+                    studentApp.add(Box.createVerticalStrut(10));
+                    studentApp.add(wrapButton(interests));
+                    studentApp.add(Box.createVerticalStrut(10));
+                    studentApp.add(wrapButton(searchAbstractsButton()));
+                    studentApp.add(Box.createVerticalStrut(10));
+                    studentApp.add(wrapButton(searchAbstractsByInfo()));
                     studentGUI.add(studentApp);
                     studentGUI.setVisible(true);
                 }
@@ -433,7 +436,12 @@ public class abstractGUI {
             email = userInfo[3].toString();
 
             JLabel studentLabel = new JLabel("<html><b>ID: </b>" + id + "<br><b>Name: </b> " + fullName + "<br><b>Email: </b>" + email + "</html>");
-            panel.add(studentLabel);
+            
+            studentLabel.setAlignmentX(Component.CENTER_ALIGNMENT);           
+            JPanel labelPanel = new JPanel();
+            labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
+            labelPanel.add(studentLabel);
+            panel.add(labelPanel);
            
         } else if (role.equals("faculty")) {
             id = userInfo[0].toString();
@@ -447,7 +455,12 @@ public class abstractGUI {
                                             "<br><b>eMail: </b> " + email +
                                             "<br><b>Building: </b> " + building +
                                             "<br><b>Room Number: </b> " + room);
-            panel.add(facultyLabel);
+                                            
+            facultyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            JPanel labelPanel = new JPanel();
+            labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
+            labelPanel.add(facultyLabel);
+            panel.add(labelPanel);
         }
     }
     
