@@ -420,7 +420,7 @@ public class abstractGUI {
         app.add(createAccount);
 
         
-        ImageIcon icon = new ImageIcon("ajritLogo.png");
+        ImageIcon icon = new ImageIcon("ProjectPart3\\ritLogo.png");
         JLabel imageLabel = new JLabel(icon);
         
         JPanel mainPanel = new JPanel(new BorderLayout());
