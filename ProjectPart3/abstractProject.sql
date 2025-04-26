@@ -1,4 +1,13 @@
-
+/*
+ * Authors: Manaswani Singh,
+ *          Weishaar, Kyle,
+ *          Williams, Michael
+ * ISTE330.01 Database Connectivity and Access
+ * Professor Habermas
+ * Abstract Project Part 3
+ * Date Complete: April 26, 2025
+ * 
+ */
 
 -- Main script for database creation
 -- Contains all test data and stored procedures
