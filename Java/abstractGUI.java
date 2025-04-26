@@ -40,8 +40,8 @@ public class abstractGUI {
                 sl.setLayout(new GridLayout(2, 2));
                 JLabel un = new JLabel("Username: ");
                 JLabel pwd = new JLabel("Password");
-                JTextField unText = new JTextField("msw7476");
-                JTextField pwdText = new JTextField("mypassword");
+                JTextField unText = new JTextField();
+                JTextField pwdText = new JTextField();
                 sl.add(un);
                 sl.add(unText);
                 sl.add(pwd);
@@ -102,8 +102,8 @@ public class abstractGUI {
                 fl.setLayout(new GridLayout(2, 2));
                 JLabel un = new JLabel("Username: ");
                 JLabel pwd = new JLabel("Password");
-                JTextField unText = new JTextField("username");
-                JTextField pwdText = new JTextField("password");
+                JTextField unText = new JTextField();
+                JTextField pwdText = new JTextField();
                 fl.add(un);
                 fl.add(unText);
                 fl.add(pwd);
@@ -171,8 +171,8 @@ public class abstractGUI {
                 pl.setLayout(new GridLayout(2, 2));
                 JLabel un = new JLabel("Username: ");
                 JLabel pwd = new JLabel("Password");
-                JTextField unText = new JTextField("public");
-                JTextField pwdText = new JTextField("user");
+                JTextField unText = new JTextField();
+                JTextField pwdText = new JTextField();
                 pl.add(un);
                 pl.add(unText);
                 pl.add(pwd);
