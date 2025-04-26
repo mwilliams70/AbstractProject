@@ -14,14 +14,18 @@ public class abstractGUI {
     public databaseFunctions abstractDB;
 
     public abstractGUI() {
+        // connects to the database
         abstractDB = new databaseFunctions();
         abstractDB.connect("abstract_project", "root", "student");
         
+
+        // creates the gui
         gui = new JFrame("Abstract Project");
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setSize(800, 600);
         gui.setLocation(500, 100);
 
+        // login/launch page for application
         JPanel app = new JPanel();
         app.setLayout(new GridLayout(4, 0));
         JButton studentLogin = new JButton("Student Login");
@@ -29,6 +33,7 @@ public class abstractGUI {
         JButton publicUserLogin = new JButton("Public User Login");
         JButton createAccount = new JButton("Create Account");
 
+        // allows a student to login to the db application
         studentLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 JPanel sl = new JPanel();
@@ -46,14 +51,20 @@ public class abstractGUI {
                 String inputUn = unText.getText();
                 String inputPwd = pwdText.getText();
 
+                // stores if the user is successfully logged in
                 loggedIn = abstractDB.loggedIn(inputUn, inputPwd, "student");
                 
+                
                 if (loggedIn) {
+                    // stores the logged in student's basic information to be displayed
                     userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "student");
                     role="student";
                     JOptionPane.showMessageDialog(null, "Logged In Successfully", "Logged In", JOptionPane.INFORMATION_MESSAGE);
-                    gui.dispose();
                     
+                    gui.dispose(); // closes the login page
+                    
+                    // GUI is created for students to interact with
+                    // students are able to search for abstracts by interest and by their chosen keywords
                     JFrame studentGUI = new JFrame("Student Dashboard");
                     studentGUI.setSize(400, 300);
                     studentGUI.setLocation(500, 100);
@@ -84,6 +95,7 @@ public class abstractGUI {
             }
         });
 
+        // button that lets a faculty member login to the db application
         facultyLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 JPanel fl = new JPanel();
@@ -101,7 +113,13 @@ public class abstractGUI {
                 String inputUn = unText.getText();
                 String inputPwd = pwdText.getText();
 
+
+                // stores the faculty members basic information to be displayed to them
                 loggedIn = abstractDB.loggedIn(inputUn, inputPwd, "faculty");
+
+                // if successfully logged in, the faculty is displayed their own GUI
+                // a faculty is allowed to search for students by name and their interest
+                // and add a new abstract
                 if (loggedIn) {
                     userInfo = abstractDB.getBasicInformation(inputUn, inputPwd, "faculty");
                     role="faculty";
@@ -109,7 +127,7 @@ public class abstractGUI {
                     gui.dispose();
 
                     JFrame facultyGUI = new JFrame("Faculty Dashboard");
-                    facultyGUI.setSize(400, 300);
+                    facultyGUI.setSize(400, 500);
                     facultyGUI.setLocation(500, 100);
                     facultyGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -139,6 +157,7 @@ public class abstractGUI {
             }
         });
 
+        // allows a public user to login to the db application
         publicUserLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 JPanel pl = new JPanel();
@@ -167,6 +186,7 @@ public class abstractGUI {
             }
         });
 
+        // if a user does not have an account, they can create one through the 'Create Account' button
         createAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 JFrame frame = new JFrame("Create Account");
@@ -190,6 +210,7 @@ public class abstractGUI {
                 frame.add(ca);
                 frame.setVisible(true);
 
+                // if a user makes a student account they enter their information that is asked of them
                 student.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae) {
                         JPanel studentCreate = new JPanel();
@@ -236,12 +257,14 @@ public class abstractGUI {
 
                         JOptionPane.showMessageDialog(null, studentCreate, "Create Student Account", JOptionPane.QUESTION_MESSAGE);
 
+                        // creates a student account
                         abstractDB.createStudentAccount(unInput.getText(), pwdInput.getText(),
                          fnInput.getText(), lnInput.getText(), emailInput.getText(), 
                          Integer.parseInt(collegeIDInput.getText()), majorInput.getText());
                     }
                 });
             
+                // creates a faculty account based on provided information
                 faculty.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae) {
                         JPanel facultyCreate = new JPanel();
@@ -288,6 +311,7 @@ public class abstractGUI {
                         
                         String[] collegeIDArray = collegeIDInput.getText().split(" ");
                         
+                        // creates a new faculty account
                         abstractDB.createFacultyAccount(unInput.getText(),
                          pwdInput.getText(), fnInput.getText(), lnInput.getText(),
                          emailInput.getText(), Integer.parseInt(officeInput.getText()), collegeIDArray,
@@ -297,6 +321,8 @@ public class abstractGUI {
                         
                     }
                 });
+
+                // creates a new public user account
                 pub.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae) {
                         JPanel publicCreate = new JPanel();
@@ -321,6 +347,8 @@ public class abstractGUI {
                         publicCreate.add(contactInput);
 
                         JOptionPane.showMessageDialog(null, publicCreate, "Public User Creation", JOptionPane.QUESTION_MESSAGE);
+                        
+                        // inserts a new public user account
                         abstractDB.createPublicUserAccount(unInput.getText(), pwdInput.getText(),
                          orgInput.getText(), contactInput.getText());
                     }
@@ -376,6 +404,7 @@ public class abstractGUI {
         gui.setVisible(true); 
     }
 
+    // creates a format for a JPanel to be displayed horizontally
     private JPanel createFieldRow(JLabel label, JTextField field) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(label, BorderLayout.WEST);
@@ -383,6 +412,7 @@ public class abstractGUI {
         return panel;
     }
     
+    // allows users to view and modify their current interests
     private void modifyBtn(String role) {
         JPanel main = new JPanel();
         main.setLayout(new GridLayout(3, 2));
@@ -393,6 +423,7 @@ public class abstractGUI {
         String[] interests = abstractDB.getInterest(Integer.parseInt(userInfo[0].toString()), role);
         System.out.println(Arrays.toString(interests));
     
+        // ensures that if a value is blank it does not crash the code
         if (interests == null || interests.length < 3) {
             interests = new String[] {"", "", ""};
         } else if (interests.length == 1) {
@@ -421,11 +452,13 @@ public class abstractGUI {
         String[] intArr = new String[] {inputtedInt1, inputtedInt2, inputtedInt3};
         System.out.println(Arrays.toString(intArr));
     
+        // inserts the users interests
         abstractDB.insertInterests(intArr, role, Integer.parseInt(userInfo[0].toString()));
     
         JOptionPane.showMessageDialog(null, "Interests Updated!", "Updated", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    // creates a panel to display a users basic information such as names, emails, etc.
     public void displayUserInformation(String role, JPanel panel) {
         String id;
         String fullName;
@@ -495,7 +528,8 @@ public class abstractGUI {
          return searchStudents;
     }
     
-    // Allows students to search for faculty via Abstracts
+    // Searches for abstracts based on a users inputted interest
+    // if a user enters 'python' abstracts written by faculty members with an interest of python will be displayed
     private JButton searchAbstractsButton(){
          JButton searchAbstracts = new JButton("Search Abstract By Interest");
          styleButton(searchAbstracts);
@@ -526,6 +560,7 @@ public class abstractGUI {
          return searchAbstracts;
     }
     
+    // searches abstracts based on keywords of an abstract such as (title, author, content)
     private JButton searchAbstractsByInfo() {
         JButton search = new JButton("Search Abstract");
         styleButton(search);
@@ -602,6 +637,8 @@ public class abstractGUI {
     });
     return addAbstract;
 }
+
+    // allows faculty to search for a student based on their first and last name
     private JButton searchStudentsByName() {
         JButton search = new JButton("Search Students By Name");
         styleButton(search);
@@ -642,7 +679,8 @@ public class abstractGUI {
         });
         return search;
     }
-    
+
+        // sets styles of buttons
        private void styleButton(JButton button) {
           Color ritOrange = new Color(255, 102, 0);
           Font buttonFont = new Font("SansSerif", Font.BOLD, 20);
@@ -652,6 +690,7 @@ public class abstractGUI {
           button.setBorder(new LineBorder(Color.BLACK, 2));
         }
    
+        // sets styles of buttons
        private JPanel wrapButton(JButton button) {
           JPanel wrapper = new JPanel();
           wrapper.setLayout(new FlowLayout(FlowLayout.CENTER));
